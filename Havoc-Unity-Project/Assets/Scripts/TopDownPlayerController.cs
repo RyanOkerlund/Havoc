@@ -10,11 +10,13 @@ public class TopDownPlayerController : MonoBehaviour
     [SerializeField] private float inputWalkingSpeed;
     private float walkingSpeed;
     private float heading;
+    private bool isCombatMode;
 
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
+        isCombatMode = false;
 
         heading = 270;
         walkingSpeed = inputWalkingSpeed;
@@ -22,25 +24,26 @@ public class TopDownPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        this.DirectionManager();
-        this.MovementManager();
-    }
+        this.ToggleCombatMode();
 
-    private void MovementManager()
-    {
-        float input_x = Input.GetAxisRaw("Horizontal");
-        float input_y = Input.GetAxisRaw("Vertical");
-
-        bool isWalking = (Mathf.Abs(input_x) + Mathf.Abs(input_y)) > 0;
-
-        if (isWalking)
+        if (isCombatMode)
         {
-            // When we come back to sprite layer renderding, make it for the parent!!!
-            this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+            this.CombatModeAnimationManager();
         }
+        this.MovementManager(isCombatMode);
     }
 
-    private void DirectionManager()
+    private bool ToggleCombatMode()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            isCombatMode = !(isCombatMode);
+        }
+
+        return isCombatMode;
+    }
+
+    private void CombatModeAnimationManager()
     {
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         heading = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
@@ -84,6 +87,31 @@ public class TopDownPlayerController : MonoBehaviour
         {
             anim.SetFloat("xPos", -1);
             anim.SetFloat("yPos", -1);
+        }
+    }
+
+    private void WalkingModeAnimationManager(float input_x, float input_y)
+    {
+        anim.SetFloat("xPos", input_x);
+        anim.SetFloat("yPos", input_y);
+    }
+    
+    private void MovementManager(bool isCombatMode)
+    {
+        float input_x = Input.GetAxisRaw("Horizontal");
+        float input_y = Input.GetAxisRaw("Vertical");
+
+        bool isWalking = (Mathf.Abs(input_x) + Mathf.Abs(input_y)) > 0;
+
+        if (isWalking)
+        {
+            // When we come back to sprite layer renderding, make it for the parent!!!
+            this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+
+            if (!isCombatMode)
+            {
+                this.WalkingModeAnimationManager(input_x, input_y);
+            }
         }
     }
 }
