@@ -22,17 +22,21 @@ public class TopDownPlayerController : MonoBehaviour
         walkingSpeed = inputWalkingSpeed;
     }
 
-    void FixedUpdate()
+    // Anything that needs to be instantaneous in updating
+    void Update()
     {
+        // CombatMode needs to snap the player to aiming at the mouse immediately!
         this.ToggleCombatMode();
-
-        if (isCombatMode)
-        {
-            this.CombatModeAnimationManager();
-        }
-        this.MovementManager(isCombatMode);
     }
 
+    // Anything that is Collision related so no glitching through walls
+    private void FixedUpdate()
+    {
+        // Movement of player
+        this.PlayerMananger(isCombatMode);
+    }
+
+    // Switch between combat mode and regular mode when a given key is pressed
     private bool ToggleCombatMode()
     {
         if (Input.GetMouseButtonDown(1))
@@ -43,6 +47,7 @@ public class TopDownPlayerController : MonoBehaviour
         return isCombatMode;
     }
 
+    // Set the orientation animation for combat mode
     private void CombatModeAnimationManager()
     {
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -90,26 +95,35 @@ public class TopDownPlayerController : MonoBehaviour
         }
     }
 
+    // Set the animation for regular mode
     private void WalkingModeAnimationManager(float input_x, float input_y)
     {
         anim.SetFloat("xPos", input_x);
         anim.SetFloat("yPos", input_y);
     }
     
-    private void MovementManager(bool isCombatMode)
-    {
+    // Brains to chose animation manager and move the player
+    private void PlayerMananger(bool isCombatMode)
+    {     
         float input_x = Input.GetAxisRaw("Horizontal");
         float input_y = Input.GetAxisRaw("Vertical");
-
         bool isWalking = (Mathf.Abs(input_x) + Mathf.Abs(input_y)) > 0;
 
-        if (isWalking)
+        if (isCombatMode)
         {
-            // When we come back to sprite layer renderding, make it for the parent!!!
-            this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
-
-            if (!isCombatMode)
+            this.CombatModeAnimationManager();
+            if (isWalking)
             {
+                // When we come back to sprite layer renderding, make it for the parent!!!
+                this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            if (isWalking)
+            {
+                // When we come back to sprite layer renderding, make it for the parent!!!
+                this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
                 this.WalkingModeAnimationManager(input_x, input_y);
             }
         }
