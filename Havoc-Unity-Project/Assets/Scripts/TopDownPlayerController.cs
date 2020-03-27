@@ -10,37 +10,45 @@ public class TopDownPlayerController : MonoBehaviour
     [SerializeField] private float inputWalkingSpeed;
     private float walkingSpeed;
     private float heading;
+    private bool isCombatMode;
 
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
+        isCombatMode = false;
 
         heading = 270;
         walkingSpeed = inputWalkingSpeed;
     }
 
-    void FixedUpdate()
+    // Anything that needs to be instantaneous in updating
+    void Update()
     {
-        this.DirectionManager();
-        this.MovementManager();
+        // CombatMode needs to snap the player to aiming at the mouse immediately!
+        this.ToggleCombatMode();
     }
 
-    private void MovementManager()
+    // Anything that is Collision related so no glitching through walls
+    private void FixedUpdate()
     {
-        float input_x = Input.GetAxisRaw("Horizontal");
-        float input_y = Input.GetAxisRaw("Vertical");
+        // Movement of player
+        this.PlayerMananger(isCombatMode);
+    }
 
-        bool isWalking = (Mathf.Abs(input_x) + Mathf.Abs(input_y)) > 0;
-
-        if (isWalking)
+    // Switch between combat mode and regular mode when a given key is pressed
+    private bool ToggleCombatMode()
+    {
+        if (Input.GetMouseButtonDown(1))
         {
-            // When we come back to sprite layer renderding, make it for the parent!!!
-            this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+            isCombatMode = !(isCombatMode);
         }
+
+        return isCombatMode;
     }
 
-    private void DirectionManager()
+    // Set the orientation animation for combat mode
+    private void CombatModeAnimationManager()
     {
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         heading = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
@@ -84,6 +92,40 @@ public class TopDownPlayerController : MonoBehaviour
         {
             anim.SetFloat("xPos", -1);
             anim.SetFloat("yPos", -1);
+        }
+    }
+
+    // Set the animation for regular mode
+    private void WalkingModeAnimationManager(float input_x, float input_y)
+    {
+        anim.SetFloat("xPos", input_x);
+        anim.SetFloat("yPos", input_y);
+    }
+    
+    // Brains to chose animation manager and move the player
+    private void PlayerMananger(bool isCombatMode)
+    {     
+        float input_x = Input.GetAxisRaw("Horizontal");
+        float input_y = Input.GetAxisRaw("Vertical");
+        bool isWalking = (Mathf.Abs(input_x) + Mathf.Abs(input_y)) > 0;
+
+        if (isCombatMode)
+        {
+            this.CombatModeAnimationManager();
+            if (isWalking)
+            {
+                // When we come back to sprite layer renderding, make it for the parent!!!
+                this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            if (isWalking)
+            {
+                // When we come back to sprite layer renderding, make it for the parent!!!
+                this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+                this.WalkingModeAnimationManager(input_x, input_y);
+            }
         }
     }
 }
