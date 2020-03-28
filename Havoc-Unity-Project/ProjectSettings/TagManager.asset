@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Rooms
   - SpawnPoint
+  - EntryRoomSpawnPoint
+  - Dungeon
   layers:
   - Default
   - TransparentFX
