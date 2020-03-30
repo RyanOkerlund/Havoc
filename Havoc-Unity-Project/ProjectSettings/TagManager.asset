@@ -7,6 +7,7 @@ TagManager:
   - SpawnPoint
   - EntryRoomSpawnPoint
   - Dungeon
+  - Rooms
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Walls
+    uniqueID: 200162463
+    locked: 0
+  - name: Floors
+    uniqueID: 3741168583
     locked: 0
