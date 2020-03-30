@@ -44,8 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881e240e58b2d2147b0b6a244afa7ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePalette: {fileID: 7839559403944381646, guid: 5e7982ea27444024dae0d4e2f220a2dd,
-    type: 3}
+  floorsPalette:
+  - {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
+  wallsPalette:
+  - {fileID: 11400000, guid: 8032511d802f91144a3754db30c4f698, type: 2}
 --- !u!1 &5241817602114454120
 GameObject:
   m_ObjectHideFlags: 0

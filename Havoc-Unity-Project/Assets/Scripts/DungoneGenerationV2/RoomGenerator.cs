@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -23,11 +24,11 @@ public class RoomGenerator : MonoBehaviour
     float chanceToDestoryGen = 0.05f;
     float chanceToSpawnGen = 0.05f;
 
-    public GameObject tilePalette;
-    GameObject map, floorTilemap, wallTilemap;
+    public List<TileBase> floorsPalette;
+    public List<TileBase> wallsPalette;
+    GameObject map;
+    Tilemap floorTilemap, wallTilemap;
     //public GameObject floorObject, wallObject, doorObject, portalObject;
-
-    public Tilemap 
 
     void Start()
     {
@@ -38,9 +39,9 @@ public class RoomGenerator : MonoBehaviour
 
     private void Setup()
     {
-        map = this.transform.GetChild(0).gameObject;
-        floorTilemap = map.transform.GetChild(0).gameObject;
-        wallTilemap = map.transform.GetChild(1).gameObject;
+        map = transform.GetChild(0).gameObject;
+        floorTilemap = map.transform.GetChild(0).GetComponent<Tilemap>();
+        wallTilemap = map.transform.GetChild(1).GetComponent<Tilemap>();
 
         roomHeight = Mathf.FloorToInt(roomSizeWorldUnits.x / worldUnitsPerOneCell);
         roomWidth = Mathf.FloorToInt(roomSizeWorldUnits.y / worldUnitsPerOneCell);
@@ -160,19 +161,25 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void Spawn(float xPos, float yPos, GameObject objectToSpawn, GameObject roomObject)
+    private void Spawn(float xPos, float yPos, Tilemap tilemapLayer, List<TileBase> palette)
     {
         Vector2 offset = roomSizeWorldUnits / 2.0f;
         Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneCell - offset;
-        floorTilemap.GetComponent<SpriteTileMode>
-        GameObject space = Instantiate(objectToSpawn, spawnPos, Quaternion.identity);
-        space.transform.SetParent(roomObject.transform);
+        tilemapLayer.SetTile(ToInt3(spawnPos), palette[0]);
+        //GameObject space = Instantiate(objectToSpawn, spawnPos, Quaternion.identity);
+        //space.transform.SetParent(roomObject.transform);
+    }
+
+
+    private Vector3Int ToInt3(Vector2 v)
+    {
+        return new Vector3Int((int)v.x, (int)v.y, 0);
     }
 
     private void SpawnRoom()
     {
-        GameObject roomObject = new GameObject();
-        roomObject.name = "Room";
+        //GameObject roomObject = new GameObject();
+        //roomObject.name = "Room";
 
         Vector2 offset = roomSizeWorldUnits / 2.0f;
         Vector2 spawnPos = new Vector2(0, 0) * worldUnitsPerOneCell - offset;
@@ -186,17 +193,17 @@ public class RoomGenerator : MonoBehaviour
                     case roomSpace.empty:
                         break;
                     case roomSpace.floor:
-                        Spawn(x, y, floorObject, roomObject);
+                        Spawn(x, y, floorTilemap, floorsPalette);
                         break;
                     case roomSpace.wall:
-                        Spawn(x, y, wallObject, roomObject);
+                        Spawn(x, y, wallTilemap, wallsPalette);
                         break;
-                    case roomSpace.door:
-                        Spawn(x, y, doorObject, roomObject);
-                        break;
-                    case roomSpace.portal:
-                        Spawn(x, y, portalObject, roomObject);
-                        break;
+                    //case roomSpace.door:
+                    //    Spawn(x, y, doorObject, roomObject);
+                    //    break;
+                    //case roomSpace.portal:
+                    //    Spawn(x, y, portalObject, roomObject);
+                    //    break;
                 }
             }
         }

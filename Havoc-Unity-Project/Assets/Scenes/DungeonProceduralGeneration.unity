@@ -172,7 +172,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 120
+  field of view: 150
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -271,11 +271,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomGenerator
       objectReference: {fileID: 0}
-    - target: {fileID: 1611012505418935587, guid: e3a82d998428623409925abe889e9d5c,
-        type: 3}
-      propertyPath: tilePalette
-      value: 
-      objectReference: {fileID: 7839559403944381646, guid: 5e7982ea27444024dae0d4e2f220a2dd,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a82d998428623409925abe889e9d5c, type: 3}
