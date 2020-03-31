@@ -7,8 +7,8 @@ public class TopDownPlayerController : MonoBehaviour
     private Rigidbody2D rb;    
     private Animator anim;
 
-    [SerializeField] private float inputWalkingSpeed;
-    private float walkingSpeed;
+    [SerializeField] private float inputWalkingSpeed = 0f;
+    private float walkingSpeed = 0f;
     private float heading;
     private bool isCombatMode;
 

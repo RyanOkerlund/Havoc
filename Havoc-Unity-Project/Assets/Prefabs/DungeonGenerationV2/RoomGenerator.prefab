@@ -48,6 +48,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
   wallsPalette:
   - {fileID: 11400000, guid: 8032511d802f91144a3754db30c4f698, type: 2}
+  doorsPalette:
+  - {fileID: 11400000, guid: 81f6ad76acb07d5459d7ee022457572b, type: 2}
 --- !u!1 &5241817602114454120
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +184,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12dfefa4e436eaf4482e1b2844c8fe7c, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -315,7 +317,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12dfefa4e436eaf4482e1b2844c8fe7c, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
