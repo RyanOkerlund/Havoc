@@ -44,6 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881e240e58b2d2147b0b6a244afa7ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridSizeWorldUnits: {x: 30, y: 30}
+  gridWidth: 0
+  gridHeight: 0
+  worldUnitsPerOneGridCell: 1
+  percentGridCovered: 0.4
+  maxGenerators: 10
+  chanceToChangeDir: 0.5
+  chanceToDestoryGen: 0.05
+  chanceToSpawnGen: 0.05
   floorsPalette:
   - {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
   wallsPalette:

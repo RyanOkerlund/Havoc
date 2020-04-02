@@ -43,5 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfce02f9742d1143b31f381ff4134ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridSizeWorldUnits: {x: 330, y: 330}
+  worldUnitsPerOneGridCell: 30
+  percentGridCovered: 0.05
+  maxGenerators: 3
+  chanceToChangeDir: 0.5
+  chanceToDestoryGen: 0.3
+  chanceToSpawnGen: 0.1
+  roomSizeWorldUnits: {x: 30, y: 30}
+  maxNumRooms: 5
+  minNumRooms: 1
   roomGenPrefab: {fileID: 1611012505418935587, guid: e3a82d998428623409925abe889e9d5c,
     type: 3}
+  player: {fileID: 5622171962013938099, guid: c5c0cef262d680540a1831184eeadb46, type: 3}
+  isLastRoom: 0
+  isFirstRoom: 1

@@ -2,120 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : Generator
 {
-    enum roomType { empty, regularRoom, bossRoom, loreRoom }
-    int maxNumRooms = 5;
-    int minNumRooms = 3;
+    public enum levelSpace { empty, firstRoom, regularRoom, bossRoom, loreRoom }
+    public levelSpace[,] level;
 
-    Vector2 distanceBetweenRooms;
+    public int maxNumRooms = 5;
+    public int minNumRooms = 1;
 
-    struct levelGenerator
-    {
-        public Vector2 pos;
-        public Vector2 startDir;
-        public Vector2 nextDir;
-    }
-    levelGenerator levelGen;
+    public RoomGenerator roomGenPrefab;
+    public GameObject player;
+    RoomGenerator firstRoom;
 
-    float chanceToChangeLevelGenDir = 0.8f;
-    float chanceToDestoryLevelGen = 0.5f;
-
-    public RoomGenerator roomGenPrefab;    
+    public bool isLastRoom = false;
+    public bool isFirstRoom = true;
 
     private void Start()
     {
         Setup();
         GenerateLevel();
+        SpawnLevel();
     }
 
-    private void Setup()
+    public void Setup()
     {
-        distanceBetweenRooms = new Vector2(roomGenPrefab.roomSizeWorldUnits.x, roomGenPrefab.roomSizeWorldUnits.y);
+        SetupGridSize();
 
-        levelGen = new levelGenerator();
-        levelGen.startDir = RandomDirection();
-        levelGen.nextDir = NextDirection(levelGen.startDir);
+        level = new levelSpace[gridWidth, gridHeight];
 
-        Vector2 startPos = new Vector2(Mathf.FloorToInt(roomGenPrefab.roomSizeWorldUnits.x / 2.0f), Mathf.FloorToInt(roomGenPrefab.roomSizeWorldUnits.y / 2.0f));
-        levelGen.pos = startPos;
-
-        Instantiate(roomGenPrefab, levelGen.pos, Quaternion.identity, this.transform);
-    }
-
-    private Vector2 RandomDirection()
-    {
-        int choice = Mathf.FloorToInt(Random.value * 3.99f);
-
-        switch (choice)
+        for (int x = 0; x < gridWidth; x++)
         {
-            case 0:
-                return Vector2.right;
-            case 1:
-                return Vector2.up;
-            case 2:
-                return Vector2.left;
-            default:
-                return Vector2.down;
-        }
-    }
-
-    private Vector2 NextDirection(Vector2 lastDir)
-    {
-        int choice = Mathf.FloorToInt(Random.value * 2.99f);
-
-        if (lastDir == Vector2.right)
-        {
-            switch (choice)
+            for (int y = 0; y < gridHeight; y++)
             {
-                case 0:
-                    return Vector2.up;
-                case 1:
-                    return Vector2.down;
-                default:
-                    return Vector2.right;
-            }
-        } 
-        else if (lastDir == Vector2.up)
-        {
-            switch (choice)
-            {
-                case 0:
-                    return Vector2.left;
-                case 1:
-                    return Vector2.right;
-                default:
-                    return Vector2.up;
+                level[x, y] = levelSpace.empty;
             }
         }
-        else if (lastDir == Vector2.left)
-        {
-            switch (choice)
-            {
-                case 0:
-                    return Vector2.down;
-                case 1:
-                    return Vector2.up;
-                default:
-                    return Vector2.left;
-            }
-        }
-        else if (lastDir == Vector2.down)
-        {
-            switch (choice)
-            {
-                case 0:
-                    return Vector2.right;
-                case 1:
-                    return Vector2.left;
-                default:
-                    return Vector2.down;
-            }
-        }
-        else
-        {
-            return lastDir;
-        }
+
+        SetupGenerators();
+
     }
 
     private void GenerateLevel()
@@ -123,17 +47,51 @@ public class LevelGenerator : MonoBehaviour
         int numSpawnedRooms = 0;
         while (numSpawnedRooms < maxNumRooms)
         {
-            if (Random.value < chanceToDestoryLevelGen && numSpawnedRooms > minNumRooms)
+            foreach (generator targetGen in generators)
             {
-                break;
+                level[(int)targetGen.pos.x, (int)targetGen.pos.y] = levelSpace.regularRoom;
             }
-            if (Random.value < chanceToChangeLevelGenDir)
-            {
-                levelGen.nextDir = NextDirection(levelGen.nextDir);
-            }
-            levelGen.pos += levelGen.nextDir * roomGenPrefab.roomSizeWorldUnits.x;
-            Instantiate(roomGenPrefab, levelGen.pos, Quaternion.identity, this.transform);
+
+            DestoryGen();
+            SpawnGen();
+            ChangeGenDir();
+            MoveGen();
+
             numSpawnedRooms++;
         }
+    }
+
+    private void SpawnLevel()
+    {
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                switch (level[x, y])
+                {
+                    case levelSpace.empty:
+                        continue;
+                    case levelSpace.regularRoom:
+                        Spawn(x, y);
+                        break;
+                    //case space.wall:
+                    //    Spawn(x, y, wallTilemap, wallsPalette);
+                    //    break;
+                    //case space.door:
+                    //    Spawn(x, y, wallTilemap, doorsPalette);
+                    //    break;
+                    //case roomSpace.portal:
+                    //    Spawn(x, y, portalObject, roomObject);
+                    //    break;
+                }
+            }
+        }
+    }
+
+    private void Spawn(float xPos, float yPos)
+    {
+        Vector2 offset = gridSizeWorldUnits / 2.0f;
+        Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
+        Instantiate(roomGenPrefab, spawnPos, Quaternion.identity, this.transform);
     }
 }
