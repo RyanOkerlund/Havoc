@@ -18,6 +18,9 @@ public class RoomGenerator : Generator
     public List<TileBase> entrancePortalsPalette;
     public List<TileBase> exitPortalsPalette;
 
+    public GameObject player;
+    Vector2 playerSpawnPos;
+
     GameObject map;
     Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap;
 
@@ -26,9 +29,13 @@ public class RoomGenerator : Generator
         Setup();
         GenerateFloor();
         GenerateAllDoors();
-        //GenerateAllPortals();
         GeneratePortal();
+        //RemoveExtraWalls();
         SpawnRoom();
+        if (roomType == LevelGenerator.levelSpace.entrance)
+        {
+            SpawnPlayer();
+        }
     }
 
     public void Setup()
@@ -211,18 +218,6 @@ public class RoomGenerator : Generator
         }
     }
 
-    private void GenerateAllPortals()
-    {
-        if (roomType == LevelGenerator.levelSpace.entrance)
-        {
-            GeneratePortal();
-        }
-        else if (roomType == LevelGenerator.levelSpace.exit)
-        {
-            GeneratePortal();
-        }
-    }
-
     private void GeneratePortal()
     {
         bool isPortalSpawned = false;
@@ -230,7 +225,7 @@ public class RoomGenerator : Generator
         {
             int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
-            if (room[x, y] == roomSpace.floor && isSurroundedByFloors(x, y))
+            if (room[x, y] == roomSpace.floor && IsSurroundedByFloors(x, y))
             {
                 if (roomType == LevelGenerator.levelSpace.entrance)
                 {
@@ -250,10 +245,30 @@ public class RoomGenerator : Generator
         }
     }
 
-    private bool isSurroundedByFloors(int x, int y)
+    private bool IsSurroundedByFloors(int x, int y)
     {
         return room[x + 1, y] == roomSpace.floor && room[x - 1, y] == roomSpace.floor && room[x, y + 1] == roomSpace.floor && room[x, y - 1] == roomSpace.floor &&
             room[x + 1, y + 1] == roomSpace.floor && room[x + 1, y - 1] == roomSpace.floor && room[x - 1, y + 1] == roomSpace.floor && room[x - 1, y - 1] == roomSpace.floor;
+    }
+
+    private void RemoveExtraWalls()
+    {
+        for (int x = 1; x < gridWidth - 1; x++)
+        {
+            for (int y = 1; y < gridHeight - 1; y++)
+            {
+                if (room[x, y] == roomSpace.wall && IsNotAdjacentToFloor(x, y))
+                {
+                    room[x, y] = roomSpace.empty;
+                }
+            }
+        }
+    }
+
+    private bool IsNotAdjacentToFloor(int x, int y)
+    {
+        return room[x + 2, y] != roomSpace.floor || room[x - 2, y] != roomSpace.floor || room[x, y + 2] != roomSpace.floor || room[x, y - 2] != roomSpace.floor ||
+            room[x + 2, y + 2] != roomSpace.floor || room[x + 2, y - 2] != roomSpace.floor || room[x - 2, y + 2] != roomSpace.floor || room[x - 2, y - 2] != roomSpace.floor;
     }
 
     private void SpawnRoom()
@@ -267,27 +282,28 @@ public class RoomGenerator : Generator
                     case roomSpace.empty:
                         continue;
                     case roomSpace.floor:
-                        Spawn(x, y, floorTilemap, floorsPalette);
+                        SpawnTile(x, y, floorTilemap, floorsPalette);
                         break;
                     case roomSpace.wall:
-                        Spawn(x, y, wallTilemap, wallsPalette);
+                        SpawnTile(x, y, wallTilemap, wallsPalette);
                         break;
                     case roomSpace.door:
-                        Spawn(x, y, doorTilemap, doorsPalette);
+                        SpawnTile(x, y, doorTilemap, doorsPalette);
                         break;
                     case roomSpace.entrancePortal:
-                        Spawn(x, y, portalTilemap, entrancePortalsPalette);
-                        
+                        SpawnTile(x, y, portalTilemap, entrancePortalsPalette);
+                        playerSpawnPos.x = x;
+                        playerSpawnPos.y = y;
                         break;
                     case roomSpace.exitPortal:
-                        Spawn(x, y, portalTilemap, exitPortalsPalette);
+                        SpawnTile(x, y, portalTilemap, exitPortalsPalette);
                         break;
                 }
             }
         }
     }
 
-    private void Spawn(float xPos, float yPos, Tilemap tilemapLayer, List<TileBase> palette)
+    private void SpawnTile(float xPos, float yPos, Tilemap tilemapLayer, List<TileBase> palette)
     {
         Vector2 offset = gridSizeWorldUnits / 2.0f;
         Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
@@ -297,5 +313,10 @@ public class RoomGenerator : Generator
     private Vector3Int ToInt3(Vector2 v)
     {
         return new Vector3Int((int)v.x, (int)v.y, 0);
+    }
+
+    private void SpawnPlayer()
+    {
+        Instantiate(player, playerSpawnPos, Quaternion.identity);
     }
 }

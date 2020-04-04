@@ -15,7 +15,6 @@ public class LevelGenerator : Generator
     public int minNumRooms = 1;
 
     public RoomGenerator roomGenPrefab;
-    public GameObject player;
     RoomGenerator firstRoom;
 
     public bool isLastRoom = false;
@@ -32,7 +31,8 @@ public class LevelGenerator : Generator
 
     public void Setup()
     {
-        gridSizeWorldUnits = roomGenPrefab.gridSizeWorldUnits * levelSizeWorldUnits;
+        gridSizeWorldUnits.x = roomGenPrefab.gridSizeWorldUnits.x * levelSizeWorldUnits.x;
+        gridSizeWorldUnits.y = roomGenPrefab.gridSizeWorldUnits.y * levelSizeWorldUnits.y;
         worldUnitsPerOneGridCell = roomGenPrefab.gridSizeWorldUnits.x;
 
         SetupGridSize();
@@ -103,7 +103,7 @@ public class LevelGenerator : Generator
         {
             int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
-            if (level[x, y] != levelSpace.entrance && isNotNextToEntrance(x, y) && isNextToAnotherRoom(x, y))
+            if (level[x, y] == levelSpace.room && IsNotNextToEntrance(x, y) && IsNextToAnotherRoom(x, y))
             {
                 level[x, y] = levelSpace.exit;
                 isExitSet = true;
@@ -111,16 +111,16 @@ public class LevelGenerator : Generator
         }
     }
 
-    private bool isNotNextToEntrance(int x, int y)
+    private bool IsNotNextToEntrance(int x, int y)
     {
         return level[x + 1, y] != levelSpace.entrance && level[x - 1, y] != levelSpace.entrance 
             && level[x, y + 1] != levelSpace.entrance && level[x, y - 1] != levelSpace.entrance;
     }
 
-    private bool isNextToAnotherRoom(int x, int y)
+    private bool IsNextToAnotherRoom(int x, int y)
     {
-        return level[x + 1, y] != levelSpace.empty && level[x - 1, y] != levelSpace.empty 
-            && level[x, y + 1] != levelSpace.empty && level[x, y - 1] != levelSpace.empty;
+        return level[x + 1, y] == levelSpace.room || level[x - 1, y] == levelSpace.room ||
+            level[x, y + 1] == levelSpace.room || level[x, y - 1] == levelSpace.room;
     }
 
     private void SpawnLevel()
