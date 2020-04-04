@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Generator : MonoBehaviour
 {
     public Vector2 gridSizeWorldUnits;
-    public int gridWidth, gridHeight;
+    [HideInInspector] public int gridWidth, gridHeight;
 
     public float worldUnitsPerOneGridCell;
     public float percentGridCovered;
@@ -29,7 +29,7 @@ public abstract class Generator : MonoBehaviour
         gridHeight = Mathf.FloorToInt(gridSizeWorldUnits.y / worldUnitsPerOneGridCell);
     }
 
-    public void SetupGenerators()
+    public void SetupFirstGenerator()
     {
         generators = new List<generator>();
         generator newGenerator = new generator();

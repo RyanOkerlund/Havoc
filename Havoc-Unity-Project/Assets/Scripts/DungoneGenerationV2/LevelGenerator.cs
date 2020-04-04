@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class LevelGenerator : Generator
 {
-    public enum levelSpace { empty, firstRoom, regularRoom, bossRoom, loreRoom }
+    public enum levelSpace { empty, room, entrance, exit, bossRoom, loreRoom }
     public levelSpace[,] level;
+    //public List<Vector2> levelGridOrder;
+    //public List<levelSpace> levelSpaceOrder;
+
+    public Vector2 levelSizeWorldUnits;
 
     public int maxNumRooms = 5;
     public int minNumRooms = 1;
@@ -21,11 +25,16 @@ public class LevelGenerator : Generator
     {
         Setup();
         GenerateLevel();
+        SetEntrance();
+        SetExit();
         SpawnLevel();
     }
 
     public void Setup()
     {
+        gridSizeWorldUnits = roomGenPrefab.gridSizeWorldUnits * levelSizeWorldUnits;
+        worldUnitsPerOneGridCell = roomGenPrefab.gridSizeWorldUnits.x;
+
         SetupGridSize();
 
         level = new levelSpace[gridWidth, gridHeight];
@@ -38,18 +47,33 @@ public class LevelGenerator : Generator
             }
         }
 
-        SetupGenerators();
+        SetupFirstGenerator();
 
+        //level[(int)generators[0].pos.x, (int)generators[0].pos.y] = levelSpace.entrance;
+    }
+
+    private int NumberOfRooms()
+    {
+        int count = 0;
+        foreach (levelSpace room in level)
+        {
+            if (room != levelSpace.empty)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     private void GenerateLevel()
     {
-        int numSpawnedRooms = 0;
-        while (numSpawnedRooms < maxNumRooms)
+        int iterations = 0;
+        int maxIterations = 100000;
+        while (iterations < maxIterations)
         {
             foreach (generator targetGen in generators)
             {
-                level[(int)targetGen.pos.x, (int)targetGen.pos.y] = levelSpace.regularRoom;
+                level[(int)targetGen.pos.x, (int)targetGen.pos.y] = levelSpace.room;
             }
 
             DestoryGen();
@@ -57,8 +81,46 @@ public class LevelGenerator : Generator
             ChangeGenDir();
             MoveGen();
 
-            numSpawnedRooms++;
+            if ((float)NumberOfRooms() / (float)level.Length > percentGridCovered)
+            {
+                break;
+            }
+
+            iterations++;
         }
+    }
+
+    private void SetEntrance()
+    {
+        Vector2 spawnPos = new Vector2(Mathf.FloorToInt(gridWidth / 2.0f), Mathf.FloorToInt(gridHeight / 2.0f));
+        level[(int)spawnPos.x, (int)spawnPos.y] = levelSpace.entrance;
+    }
+
+    private void SetExit()
+    {
+        bool isExitSet = false;
+        while (!isExitSet)
+        {
+            int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
+            int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
+            if (level[x, y] != levelSpace.entrance && isNotNextToEntrance(x, y) && isNextToAnotherRoom(x, y))
+            {
+                level[x, y] = levelSpace.exit;
+                isExitSet = true;
+            }
+        }
+    }
+
+    private bool isNotNextToEntrance(int x, int y)
+    {
+        return level[x + 1, y] != levelSpace.entrance && level[x - 1, y] != levelSpace.entrance 
+            && level[x, y + 1] != levelSpace.entrance && level[x, y - 1] != levelSpace.entrance;
+    }
+
+    private bool isNextToAnotherRoom(int x, int y)
+    {
+        return level[x + 1, y] != levelSpace.empty && level[x - 1, y] != levelSpace.empty 
+            && level[x, y + 1] != levelSpace.empty && level[x, y - 1] != levelSpace.empty;
     }
 
     private void SpawnLevel()
@@ -67,22 +129,24 @@ public class LevelGenerator : Generator
         {
             for (int y = 0; y < gridHeight; y++)
             {
+                roomGenPrefab.roomPositionInLevel.x = x;
+                roomGenPrefab.roomPositionInLevel.y = y;
                 switch (level[x, y])
                 {
                     case levelSpace.empty:
                         continue;
-                    case levelSpace.regularRoom:
+                    case levelSpace.room:
+                        roomGenPrefab.roomType = levelSpace.room;
                         Spawn(x, y);
                         break;
-                    //case space.wall:
-                    //    Spawn(x, y, wallTilemap, wallsPalette);
-                    //    break;
-                    //case space.door:
-                    //    Spawn(x, y, wallTilemap, doorsPalette);
-                    //    break;
-                    //case roomSpace.portal:
-                    //    Spawn(x, y, portalObject, roomObject);
-                    //    break;
+                    case levelSpace.entrance:
+                        roomGenPrefab.roomType = levelSpace.entrance;
+                        Spawn(x, y);
+                        break;
+                    case levelSpace.exit:
+                        roomGenPrefab.roomType = levelSpace.exit;
+                        Spawn(x, y);
+                        break;
                 }
             }
         }
