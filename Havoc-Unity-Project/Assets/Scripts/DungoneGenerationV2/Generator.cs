@@ -2,26 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Generator Class:
+ This class is an abstract class describing main variables and features of a drunken-walker generation algorithm.
+ Creates generators on a specified grid to "walk" about and generate whatever is chosen.                  
+*/
 public abstract class Generator : MonoBehaviour
 {
-    public Vector2 gridSizeWorldUnits;
-    [HideInInspector] public int gridWidth, gridHeight;
+    public Vector2 gridSizeWorldUnits; // The physical x, y space the grid takes up (actual values in Unity)
+    [HideInInspector] public int gridWidth, gridHeight; // The width and height of the grid in number of grid spaces
 
-    public float worldUnitsPerOneGridCell;
-    public float percentGridCovered;
+    public float worldUnitsPerOneGridCell; // The size of each space in the grid
+    public float percentGridCovered; // How much of the grid needs to have generated to be complete
 
-    public struct generator
+    public struct generator // The generator itself. Stores a position in the grid and a direction
     {
         public Vector2 pos;
         public Vector2 dir;
     }
 
-    public List<generator> generators;
-    public int maxGenerators;
+    public List<generator> generators; // List of generators currently in the grid
+    public int maxGenerators; // Max number of generators at one time
 
-    public float chanceToChangeDir;
-    public float chanceToDestoryGen;
-    public float chanceToSpawnGen;
+    public float chanceToChangeDir; // Percent chance to change a generator's direction
+    public float chanceToDestoryGen; // Percent chance to destroy a generator
+    public float chanceToSpawnGen; // Percent chance to spawn a new generator 
 
     public void SetupGridSize()
     {

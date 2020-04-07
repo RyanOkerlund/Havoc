@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class RoomGenerator : Generator
 {
-    LevelGenerator level;
+    LevelGenerator level = null;
     public enum roomSpace { empty, floor, wall, door, entrancePortal, exitPortal }
     public roomSpace[,] room;
 
@@ -18,9 +18,6 @@ public class RoomGenerator : Generator
     public List<TileBase> entrancePortalsPalette;
     public List<TileBase> exitPortalsPalette;
 
-    public GameObject player;
-    Vector2 playerSpawnPos;
-
     GameObject map;
     Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap;
 
@@ -30,23 +27,14 @@ public class RoomGenerator : Generator
         GenerateFloor();
         GenerateAllDoors();
         GeneratePortal();
-        //RemoveExtraWalls();
         SpawnRoom();
-        if (roomType == LevelGenerator.levelSpace.entrance)
-        {
-            SpawnPlayer();
-        }
     }
 
+    #region SetupRoom
     public void Setup()
     {
         level = GetComponentInParent<LevelGenerator>();
-
-        map = transform.GetChild(0).gameObject;
-        floorTilemap = map.transform.GetChild(0).GetComponent<Tilemap>();
-        wallTilemap = map.transform.GetChild(1).GetComponent<Tilemap>();
-        doorTilemap = map.transform.GetChild(2).GetComponent<Tilemap>();
-        portalTilemap = map.transform.GetChild(3).GetComponent<Tilemap>();
+        SetupTilemaps();
 
         SetupGridSize();
 
@@ -60,22 +48,20 @@ public class RoomGenerator : Generator
             }
         }
 
-        SetupFirstGenerator();    
+        SetupFirstGenerator();
     }
 
-    private int NumberOfFloors()
+    private void SetupTilemaps()
     {
-        int count = 0;
-        foreach (roomSpace space in room)
-        {
-            if (space == roomSpace.floor)
-            {
-                count++;
-            }
-        }
-        return count;
+        map = transform.GetChild(0).gameObject;
+        floorTilemap = map.transform.GetChild(0).GetComponent<Tilemap>();
+        wallTilemap = map.transform.GetChild(1).GetComponent<Tilemap>();
+        doorTilemap = map.transform.GetChild(2).GetComponent<Tilemap>();
+        portalTilemap = map.transform.GetChild(3).GetComponent<Tilemap>();
     }
+    #endregion
 
+    #region FloorGeneration
     private void GenerateFloor()
     {
         int iterations = 0;
@@ -102,13 +88,30 @@ public class RoomGenerator : Generator
         }
     }
 
+    private int NumberOfFloors()
+    {
+        int count = 0;
+        foreach (roomSpace space in room)
+        {
+            if (space == roomSpace.floor)
+            {
+                count++;
+            }
+        }
+        return count;
+    } 
+    #endregion
+
+    #region DoorGeneration
     private void GenerateAllDoors()
     {
-        List<Vector2> surroundingRoomsLocations = GetAdjacentRooms();
-
-        foreach (Vector2 dir in surroundingRoomsLocations)
+        if (level != null)
         {
-            GenerateDoors(dir);
+            List<Vector2> surroundingRoomsLocations = GetAdjacentRooms();
+            foreach (Vector2 dir in surroundingRoomsLocations)
+            {
+                GenerateDoors(dir);
+            } 
         }
     }
 
@@ -216,8 +219,10 @@ public class RoomGenerator : Generator
                 }
             }
         }
-    }
+    } 
+    #endregion
 
+    #region PortalGeneration
     private void GeneratePortal()
     {
         bool isPortalSpawned = false;
@@ -240,7 +245,7 @@ public class RoomGenerator : Generator
                 else
                 {
                     break;
-                }                
+                }
             }
         }
     }
@@ -250,7 +255,9 @@ public class RoomGenerator : Generator
         return room[x + 1, y] == roomSpace.floor && room[x - 1, y] == roomSpace.floor && room[x, y + 1] == roomSpace.floor && room[x, y - 1] == roomSpace.floor &&
             room[x + 1, y + 1] == roomSpace.floor && room[x + 1, y - 1] == roomSpace.floor && room[x - 1, y + 1] == roomSpace.floor && room[x - 1, y - 1] == roomSpace.floor;
     }
+    #endregion
 
+    #region ExtraWallRemoval
     private void RemoveExtraWalls()
     {
         for (int x = 1; x < gridWidth - 1; x++)
@@ -270,7 +277,9 @@ public class RoomGenerator : Generator
         return room[x + 2, y] != roomSpace.floor || room[x - 2, y] != roomSpace.floor || room[x, y + 2] != roomSpace.floor || room[x, y - 2] != roomSpace.floor ||
             room[x + 2, y + 2] != roomSpace.floor || room[x + 2, y - 2] != roomSpace.floor || room[x - 2, y + 2] != roomSpace.floor || room[x - 2, y - 2] != roomSpace.floor;
     }
+    #endregion
 
+    #region Spawning
     private void SpawnRoom()
     {
         for (int x = 0; x < gridWidth; x++)
@@ -292,8 +301,6 @@ public class RoomGenerator : Generator
                         break;
                     case roomSpace.entrancePortal:
                         SpawnTile(x, y, portalTilemap, entrancePortalsPalette);
-                        playerSpawnPos.x = x;
-                        playerSpawnPos.y = y;
                         break;
                     case roomSpace.exitPortal:
                         SpawnTile(x, y, portalTilemap, exitPortalsPalette);
@@ -313,10 +320,6 @@ public class RoomGenerator : Generator
     private Vector3Int ToInt3(Vector2 v)
     {
         return new Vector3Int((int)v.x, (int)v.y, 0);
-    }
-
-    private void SpawnPlayer()
-    {
-        Instantiate(player, playerSpawnPos, Quaternion.identity);
-    }
+    } 
+    #endregion
 }

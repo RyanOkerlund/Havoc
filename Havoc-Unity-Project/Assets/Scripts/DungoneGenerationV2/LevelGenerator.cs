@@ -6,8 +6,6 @@ public class LevelGenerator : Generator
 {
     public enum levelSpace { empty, room, entrance, exit, bossRoom, loreRoom }
     public levelSpace[,] level;
-    //public List<Vector2> levelGridOrder;
-    //public List<levelSpace> levelSpaceOrder;
 
     public Vector2 levelSizeWorldUnits;
 
@@ -16,9 +14,6 @@ public class LevelGenerator : Generator
 
     public RoomGenerator roomGenPrefab;
     RoomGenerator firstRoom;
-
-    public bool isLastRoom = false;
-    public bool isFirstRoom = true;
 
     private void Start()
     {
@@ -48,23 +43,9 @@ public class LevelGenerator : Generator
         }
 
         SetupFirstGenerator();
-
-        //level[(int)generators[0].pos.x, (int)generators[0].pos.y] = levelSpace.entrance;
     }
 
-    private int NumberOfRooms()
-    {
-        int count = 0;
-        foreach (levelSpace room in level)
-        {
-            if (room != levelSpace.empty)
-            {
-                count++;
-            }
-        }
-        return count;
-    }
-
+    #region GenerateRooms
     private void GenerateLevel()
     {
         int iterations = 0;
@@ -85,10 +66,23 @@ public class LevelGenerator : Generator
             {
                 break;
             }
-
             iterations++;
         }
     }
+
+    private int NumberOfRooms()
+    {
+        int count = 0;
+        foreach (levelSpace room in level)
+        {
+            if (room != levelSpace.empty)
+            {
+                count++;
+            }
+        }
+        return count;
+    } 
+    #endregion
 
     private void SetEntrance()
     {
@@ -96,6 +90,7 @@ public class LevelGenerator : Generator
         level[(int)spawnPos.x, (int)spawnPos.y] = levelSpace.entrance;
     }
 
+    #region GenerateExit
     private void SetExit()
     {
         bool isExitSet = false;
@@ -113,7 +108,7 @@ public class LevelGenerator : Generator
 
     private bool IsNotNextToEntrance(int x, int y)
     {
-        return level[x + 1, y] != levelSpace.entrance && level[x - 1, y] != levelSpace.entrance 
+        return level[x + 1, y] != levelSpace.entrance && level[x - 1, y] != levelSpace.entrance
             && level[x, y + 1] != levelSpace.entrance && level[x, y - 1] != levelSpace.entrance;
     }
 
@@ -122,7 +117,9 @@ public class LevelGenerator : Generator
         return level[x + 1, y] == levelSpace.room || level[x - 1, y] == levelSpace.room ||
             level[x, y + 1] == levelSpace.room || level[x, y - 1] == levelSpace.room;
     }
+    #endregion
 
+    #region Spawning
     private void SpawnLevel()
     {
         for (int x = 0; x < gridWidth; x++)
@@ -157,5 +154,6 @@ public class LevelGenerator : Generator
         Vector2 offset = gridSizeWorldUnits / 2.0f;
         Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
         Instantiate(roomGenPrefab, spawnPos, Quaternion.identity, this.transform);
-    }
+    } 
+    #endregion
 }

@@ -188,7 +188,7 @@ MonoBehaviour:
   chanceToDestoryGen: 0.05
   chanceToSpawnGen: 0.05
   roomPositionInLevel: {x: 8, y: 8}
-  roomType: 2
+  roomType: 1
   floorsPalette:
   - {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
   wallsPalette:
@@ -199,7 +199,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea0e991b248bd79409ce45a95889b29d, type: 2}
   exitPortalsPalette:
   - {fileID: 11400000, guid: db998390b5404be49ac9f6d0b9c5a5d8, type: 2}
-  player: {fileID: 5622171962013938099, guid: c5c0cef262d680540a1831184eeadb46, type: 3}
 --- !u!1 &5241817602114454120
 GameObject:
   m_ObjectHideFlags: 0
