@@ -1,26 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// Tilemaps used to spawn the room on a Tilemap
 using UnityEngine.Tilemaps;
 
-public class RoomGenerator : Generator
+/*
+ RoomGenerator Class:
+ This class extends the Generator class to spawn a room with a random floor pattern.
+ Works in conjuction with the LevelGenerator Class to create a unique dungeon level          
+*/
+public class RoomGenerator : Generator // Extends Generator Class
 {
-    LevelGenerator level = null;
-    public enum roomSpace { empty, floor, wall, door, entrancePortal, exitPortal }
-    public roomSpace[,] room;
+    LevelGenerator level = null; // The grid of the entire level
+    public enum roomSpace { empty, floor, wall, door, entrancePortal, exitPortal } // Room space types
+    public roomSpace[,] room; // The grid of the room
 
-    public Vector2 roomPositionInLevel;
-    public LevelGenerator.levelSpace roomType;
+    public Vector2 roomPositionInLevel; // The room's position in the level
+    public LevelGenerator.levelSpace roomType; // This room's type (see levelSpace enum in LevelGenerator Class)
 
-    public List<TileBase> floorsPalette;
-    public List<TileBase> wallsPalette;
-    public List<TileBase> doorsPalette;
-    public List<TileBase> entrancePortalsPalette;
-    public List<TileBase> exitPortalsPalette;
+    public List<TileBase> floorsPalette; // The list of tiles to draw from for floors 
+    public List<TileBase> wallsPalette; // The list of tiles to draw from for walls
+    public List<TileBase> doorsPalette; // The list of tiles to draw from for doors
+    public List<TileBase> entrancePortalsPalette; // The list of tiles to draw from for entrance portals
+    public List<TileBase> exitPortalsPalette; // The list of tiles to draw from for exit portals
 
-    GameObject map;
-    Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap;
+    GameObject map; // The parent tilemap grid
+    Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap; // The respective tilemaps for each type of tile
 
+    // Runs all the code to make the room
     private void Start()
     {
         Setup();
@@ -31,15 +38,19 @@ public class RoomGenerator : Generator
     }
 
     #region SetupRoom
+    // Prepares the room for generation
     public void Setup()
     {
+        // Get the reference for the level
         level = GetComponentInParent<LevelGenerator>();
-        SetupTilemaps();
 
+        SetupTilemaps();
         SetupGridSize();
 
+        // Initialize the room grid
         room = new roomSpace[gridWidth, gridHeight];
 
+        // Set all the room spaces to a wall
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
@@ -51,6 +62,7 @@ public class RoomGenerator : Generator
         SetupFirstGenerator();
     }
 
+    // Get all the references for the respective tilemaps
     private void SetupTilemaps()
     {
         map = transform.GetChild(0).gameObject;
@@ -62,23 +74,27 @@ public class RoomGenerator : Generator
     #endregion
 
     #region FloorGeneration
+    // Use the generators to spawn the floor in the room
     private void GenerateFloor()
     {
         int iterations = 0;
         int maxIterations = 100000;
         while (iterations < maxIterations)
         {
+            // Change the location of each generator to a floor
             foreach (generator targetGen in generators)
             {
                 room[(int)targetGen.pos.x, (int)targetGen.pos.y] = roomSpace.floor;
             }
 
+            // See Generator Class
             DestoryGen();
             SpawnGen();
             ChangeGenDir();
             MoveGen();
             ClampGen();
 
+            // If enough of the room grid is floors then be done
             if ((float)NumberOfFloors() / (float)room.Length > percentGridCovered)
             {
                 break;
@@ -88,6 +104,7 @@ public class RoomGenerator : Generator
         }
     }
 
+    // Returns the number of floors in the room
     private int NumberOfFloors()
     {
         int count = 0;
@@ -103,18 +120,22 @@ public class RoomGenerator : Generator
     #endregion
 
     #region DoorGeneration
+    // Create the doors for this room based upon adjacent rooms in the level
     private void GenerateAllDoors()
     {
+        // Only do this if this room is part of level
         if (level != null)
         {
             List<Vector2> surroundingRoomsLocations = GetAdjacentRooms();
             foreach (Vector2 dir in surroundingRoomsLocations)
             {
+                // Generate doors in each direciton where there is an adjacent room
                 GenerateDoors(dir);
             } 
         }
     }
 
+    // Returns a list of directions of the rooms adjacent to this room
     private List<Vector2> GetAdjacentRooms()
     {
         List<Vector2> adjacentRoomsLocations = new List<Vector2>();
@@ -140,6 +161,7 @@ public class RoomGenerator : Generator
         return adjacentRoomsLocations;
     }
 
+    // Generate a door given a direction to an adjacent room
     private void GenerateDoors(Vector2 dir)
     {
         bool isDoorSpawned = false;
@@ -223,11 +245,13 @@ public class RoomGenerator : Generator
     #endregion
 
     #region PortalGeneration
+    // Sets a space in the middle of 8 floor spaces to a portal depending on this room's type
     private void GeneratePortal()
     {
         bool isPortalSpawned = false;
         while (!isPortalSpawned)
         {
+            // Get a random x and y for a room grid space
             int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
             if (room[x, y] == roomSpace.floor && IsSurroundedByFloors(x, y))
@@ -250,6 +274,7 @@ public class RoomGenerator : Generator
         }
     }
 
+    // Checks if the given location is surrounded by floors so that portals don't generate next to a wall
     private bool IsSurroundedByFloors(int x, int y)
     {
         return room[x + 1, y] == roomSpace.floor && room[x - 1, y] == roomSpace.floor && room[x, y + 1] == roomSpace.floor && room[x, y - 1] == roomSpace.floor &&
@@ -280,6 +305,7 @@ public class RoomGenerator : Generator
     #endregion
 
     #region Spawning
+    // Loops through each room grid space and spawns the tile it is designated to be on the correct tilemap layer
     private void SpawnRoom()
     {
         for (int x = 0; x < gridWidth; x++)
@@ -310,13 +336,15 @@ public class RoomGenerator : Generator
         }
     }
 
+    // Spawns a tile at the given x,y coords, on the given tilemap, and given a list of tiles (palette)
     private void SpawnTile(float xPos, float yPos, Tilemap tilemapLayer, List<TileBase> palette)
     {
         Vector2 offset = gridSizeWorldUnits / 2.0f;
         Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
-        tilemapLayer.SetTile(ToInt3(spawnPos), palette[0]);
+        tilemapLayer.SetTile(ToInt3(spawnPos), palette[0]); // Plan to implement randomness in tile selection
     }
 
+    // Converts a Vector2 to a Vector3Int
     private Vector3Int ToInt3(Vector2 v)
     {
         return new Vector3Int((int)v.x, (int)v.y, 0);

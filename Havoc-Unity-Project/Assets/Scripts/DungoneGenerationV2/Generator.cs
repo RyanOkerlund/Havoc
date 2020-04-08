@@ -9,6 +9,7 @@ using UnityEngine;
 */
 public abstract class Generator : MonoBehaviour
 {
+    // The "grid" is implemented in classes that extend this class!!!
     public Vector2 gridSizeWorldUnits; // The physical x, y space the grid takes up (actual values in Unity)
     [HideInInspector] public int gridWidth, gridHeight; // The width and height of the grid in number of grid spaces
 
@@ -28,12 +29,15 @@ public abstract class Generator : MonoBehaviour
     public float chanceToDestoryGen; // Percent chance to destroy a generator
     public float chanceToSpawnGen; // Percent chance to spawn a new generator 
 
+    // Define the gridWidth and gridHeight
     public void SetupGridSize()
     {
         gridWidth = Mathf.FloorToInt(gridSizeWorldUnits.x / worldUnitsPerOneGridCell);
         gridHeight = Mathf.FloorToInt(gridSizeWorldUnits.y / worldUnitsPerOneGridCell);
     }
 
+    // Add the first generator with a random direction at the center of the grid
+    // to the generator list
     public void SetupFirstGenerator()
     {
         generators = new List<generator>();
@@ -46,6 +50,7 @@ public abstract class Generator : MonoBehaviour
         generators.Add(newGenerator);
     }
 
+    // Returns a random direction
     public Vector2 RandomDirection()
     {
         int choice = Mathf.FloorToInt(Random.value * 3.99f);
@@ -63,6 +68,7 @@ public abstract class Generator : MonoBehaviour
         }
     }
 
+    // Loops through the generators and tries to destory them
     public void DestoryGen()
     {
         int numGens = generators.Count; // might change in the loop DON'T CHANGE!
@@ -76,6 +82,7 @@ public abstract class Generator : MonoBehaviour
         }
     }
 
+    // Tries to spawn new generators as long as the max isn't reached
     public void SpawnGen()
     {
         int numGens = generators.Count; // might change in the loop DON'T CHANGE!
@@ -91,6 +98,7 @@ public abstract class Generator : MonoBehaviour
         }
     }
 
+    // Loops through generators and tries to change there direction
     public void ChangeGenDir()
     {
         for (int i = 0; i < generators.Count; i++)
@@ -104,6 +112,7 @@ public abstract class Generator : MonoBehaviour
         }
     }
 
+    // Moves all generators in their direciton on grid space
     public void MoveGen()
     {
         for (int i = 0; i < generators.Count; i++)
@@ -114,6 +123,7 @@ public abstract class Generator : MonoBehaviour
         }
     }
 
+    // Prevents generator from moving to an edge of the grid
     public void ClampGen()
     {
         for (int i = 0; i < generators.Count; i++)

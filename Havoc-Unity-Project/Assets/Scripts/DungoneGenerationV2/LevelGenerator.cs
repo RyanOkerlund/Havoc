@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGenerator : Generator
+/*
+ LevelGenerator Class:
+ This class extends the Generator class to spawn a Level with a random rooms pattern.
+ Works in conjuction with the RoomGenerator Class to create a unique dungeon level          
+*/
+public class LevelGenerator : Generator // Extends Generator Class
 {
-    public enum levelSpace { empty, room, entrance, exit, bossRoom, loreRoom }
-    public levelSpace[,] level;
+    public enum levelSpace { empty, room, entrance, exit, bossRoom, loreRoom } // Level space types (i.e. room types)
+    public levelSpace[,] level; // The grid of the level
 
-    public Vector2 levelSizeWorldUnits;
+    public Vector2 levelGridSize; // The size of the level in grid spaces
 
-    public int maxNumRooms = 5;
-    public int minNumRooms = 1;
+    public RoomGenerator roomGenPrefab; // The RoomGenerator prefab to make rooms
 
-    public RoomGenerator roomGenPrefab;
-    RoomGenerator firstRoom;
-
+    // Runs all the code to make the level
     private void Start()
     {
         Setup();
@@ -24,16 +26,20 @@ public class LevelGenerator : Generator
         SpawnLevel();
     }
 
+    // Prepares the level for generation
     public void Setup()
     {
-        gridSizeWorldUnits.x = roomGenPrefab.gridSizeWorldUnits.x * levelSizeWorldUnits.x;
-        gridSizeWorldUnits.y = roomGenPrefab.gridSizeWorldUnits.y * levelSizeWorldUnits.y;
+        // Sets the level grid size in Unity world units
+        gridSizeWorldUnits.x = roomGenPrefab.gridSizeWorldUnits.x * levelGridSize.x;
+        gridSizeWorldUnits.y = roomGenPrefab.gridSizeWorldUnits.y * levelGridSize.y;
         worldUnitsPerOneGridCell = roomGenPrefab.gridSizeWorldUnits.x;
 
         SetupGridSize();
 
+        // Initialize the level grid
         level = new levelSpace[gridWidth, gridHeight];
 
+        // Set all the level grid spaces to empty
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
@@ -46,22 +52,26 @@ public class LevelGenerator : Generator
     }
 
     #region GenerateRooms
+    // Use generators to spawn rooms
     private void GenerateLevel()
     {
         int iterations = 0;
         int maxIterations = 100000;
         while (iterations < maxIterations)
         {
+            // Change the location of each generator to a room
             foreach (generator targetGen in generators)
             {
                 level[(int)targetGen.pos.x, (int)targetGen.pos.y] = levelSpace.room;
             }
 
+            // See Generator Class
             DestoryGen();
             SpawnGen();
             ChangeGenDir();
             MoveGen();
 
+            // If enough of the room grid is rooms then be done
             if ((float)NumberOfRooms() / (float)level.Length > percentGridCovered)
             {
                 break;
@@ -70,6 +80,7 @@ public class LevelGenerator : Generator
         }
     }
 
+    // Returns the number of rooms in the level
     private int NumberOfRooms()
     {
         int count = 0;
@@ -84,6 +95,7 @@ public class LevelGenerator : Generator
     } 
     #endregion
 
+    // Sets middle room to an entrance type
     private void SetEntrance()
     {
         Vector2 spawnPos = new Vector2(Mathf.FloorToInt(gridWidth / 2.0f), Mathf.FloorToInt(gridHeight / 2.0f));
@@ -91,6 +103,7 @@ public class LevelGenerator : Generator
     }
 
     #region GenerateExit
+    // Set a random room in the level grid to an exit
     private void SetExit()
     {
         bool isExitSet = false;
@@ -98,6 +111,7 @@ public class LevelGenerator : Generator
         {
             int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
+            // So long as that location is a regular room and isn't next to the entrance and is next to another room, set exit
             if (level[x, y] == levelSpace.room && IsNotNextToEntrance(x, y) && IsNextToAnotherRoom(x, y))
             {
                 level[x, y] = levelSpace.exit;
@@ -106,12 +120,14 @@ public class LevelGenerator : Generator
         }
     }
 
+    // Checks if the given location is next to the entrance room
     private bool IsNotNextToEntrance(int x, int y)
     {
         return level[x + 1, y] != levelSpace.entrance && level[x - 1, y] != levelSpace.entrance
             && level[x, y + 1] != levelSpace.entrance && level[x, y - 1] != levelSpace.entrance;
     }
 
+    // Checks if the location is next to another room
     private bool IsNextToAnotherRoom(int x, int y)
     {
         return level[x + 1, y] == levelSpace.room || level[x - 1, y] == levelSpace.room ||
@@ -120,6 +136,7 @@ public class LevelGenerator : Generator
     #endregion
 
     #region Spawning
+    // Loops through each level grid space and spawns a room (RoomGenerator Class does most of the work)
     private void SpawnLevel()
     {
         for (int x = 0; x < gridWidth; x++)
@@ -149,6 +166,7 @@ public class LevelGenerator : Generator
         }
     }
 
+    // Instantiates a room at the given location
     private void Spawn(float xPos, float yPos)
     {
         Vector2 offset = gridSizeWorldUnits / 2.0f;
