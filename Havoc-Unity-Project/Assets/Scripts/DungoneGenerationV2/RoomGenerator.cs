@@ -23,8 +23,9 @@ public class RoomGenerator : Generator // Extends Generator Class
     public List<TileBase> doorsPalette; // The list of tiles to draw from for doors
     public List<TileBase> entrancePortalsPalette; // The list of tiles to draw from for entrance portals
     public List<TileBase> exitPortalsPalette; // The list of tiles to draw from for exit portals
+    public GameObject player; // The player prefab
 
-    GameObject map; // The parent tilemap grid
+    Grid map; // The parent tilemap grid
     Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap; // The respective tilemaps for each type of tile
 
     // Runs all the code to make the room
@@ -32,6 +33,7 @@ public class RoomGenerator : Generator // Extends Generator Class
     {
         Setup();
         GenerateFloor();
+        GenerateWalls();
         GenerateAllDoors();
         GeneratePortal();
         SpawnRoom();
@@ -55,7 +57,7 @@ public class RoomGenerator : Generator // Extends Generator Class
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                room[x, y] = roomSpace.wall;
+                room[x, y] = roomSpace.empty;
             }
         }
 
@@ -65,7 +67,7 @@ public class RoomGenerator : Generator // Extends Generator Class
     // Get all the references for the respective tilemaps
     private void SetupTilemaps()
     {
-        map = transform.GetChild(0).gameObject;
+        map = transform.GetComponentInChildren<Grid>();
         floorTilemap = map.transform.GetChild(0).GetComponent<Tilemap>();
         wallTilemap = map.transform.GetChild(1).GetComponent<Tilemap>();
         doorTilemap = map.transform.GetChild(2).GetComponent<Tilemap>();
@@ -117,6 +119,42 @@ public class RoomGenerator : Generator // Extends Generator Class
         }
         return count;
     } 
+    #endregion
+
+    #region WallGeneration
+    // Generates walls around the generated floor to save on useless walls
+    private void GenerateWalls() {
+        for (int x = 0; x < gridWidth; x++) {
+            for (int y = 0; y < gridHeight; y++) {
+                if (room[x, y] == roomSpace.floor) {
+                    if (room[x + 1, y] == roomSpace.empty) {
+                        room[x + 1, y] = roomSpace.wall;
+                    }
+                    if (room[x - 1, y] == roomSpace.empty) {
+                        room[x - 1, y] = roomSpace.wall;
+                    }
+                    if (room[x, y + 1] == roomSpace.empty) {
+                        room[x, y + 1] = roomSpace.wall;
+                    }
+                    if (room[x, y - 1] == roomSpace.empty) {
+                        room[x, y - 1] = roomSpace.wall;
+                    }
+                    if (room[x + 1, y + 1] == roomSpace.empty) {
+                        room[x + 1, y  + 1] = roomSpace.wall;
+                    }
+                    if (room[x + 1, y - 1] == roomSpace.empty) {
+                        room[x + 1, y - 1] = roomSpace.wall;
+                    }
+                    if (room[x - 1, y + 1] == roomSpace.empty) {
+                        room[x - 1, y + 1] = roomSpace.wall;
+                    }
+                    if (room[x - 1, y - 1] == roomSpace.empty) {
+                        room[x - 1, y - 1] = roomSpace.wall;
+                    }
+                }
+            }
+        }
+    }
     #endregion
 
     #region DoorGeneration
@@ -282,28 +320,6 @@ public class RoomGenerator : Generator // Extends Generator Class
     }
     #endregion
 
-    #region ExtraWallRemoval
-    private void RemoveExtraWalls()
-    {
-        for (int x = 1; x < gridWidth - 1; x++)
-        {
-            for (int y = 1; y < gridHeight - 1; y++)
-            {
-                if (room[x, y] == roomSpace.wall && IsNotAdjacentToFloor(x, y))
-                {
-                    room[x, y] = roomSpace.empty;
-                }
-            }
-        }
-    }
-
-    private bool IsNotAdjacentToFloor(int x, int y)
-    {
-        return room[x + 2, y] != roomSpace.floor || room[x - 2, y] != roomSpace.floor || room[x, y + 2] != roomSpace.floor || room[x, y - 2] != roomSpace.floor ||
-            room[x + 2, y + 2] != roomSpace.floor || room[x + 2, y - 2] != roomSpace.floor || room[x - 2, y + 2] != roomSpace.floor || room[x - 2, y - 2] != roomSpace.floor;
-    }
-    #endregion
-
     #region Spawning
     // Loops through each room grid space and spawns the tile it is designated to be on the correct tilemap layer
     private void SpawnRoom()
@@ -325,7 +341,8 @@ public class RoomGenerator : Generator // Extends Generator Class
                     case roomSpace.door:
                         SpawnTile(x, y, doorTilemap, doorsPalette);
                         break;
-                    case roomSpace.entrancePortal:
+                    case roomSpace.entrancePortal: // Need to spawn player as well at this location                       
+                        SpawnPlayer(x - gridWidth / 2, y - gridHeight / 2); // Need to offset the location to make it within the room
                         SpawnTile(x, y, portalTilemap, entrancePortalsPalette);
                         break;
                     case roomSpace.exitPortal:
@@ -348,6 +365,15 @@ public class RoomGenerator : Generator // Extends Generator Class
     private Vector3Int ToInt3(Vector2 v)
     {
         return new Vector3Int((int)v.x, (int)v.y, 0);
-    } 
+    }
+
+    // Spawns the player at the entrance portal if this is the entrance room
+    private void SpawnPlayer(int xPos, int yPos)
+    {
+        Vector3Int entrancePortalPosition = new Vector3Int(xPos, yPos, 0);
+        Vector3 tempPos = map.CellToWorld(entrancePortalPosition);
+        Vector3 playerSpawnPos = new Vector3(tempPos.x + 0.5f, tempPos.y + 0.5f, 0); 
+        Instantiate(player, playerSpawnPos, Quaternion.identity);
+    }
     #endregion
 }

@@ -199,6 +199,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea0e991b248bd79409ce45a95889b29d, type: 2}
   exitPortalsPalette:
   - {fileID: 11400000, guid: db998390b5404be49ac9f6d0b9c5a5d8, type: 2}
+  player: {fileID: 5622171962013938099, guid: c5c0cef262d680540a1831184eeadb46, type: 3}
 --- !u!1 &5241817602114454120
 GameObject:
   m_ObjectHideFlags: 0

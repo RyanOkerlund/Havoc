@@ -13,6 +13,7 @@ public class LevelGenerator : Generator // Extends Generator Class
     public levelSpace[,] level; // The grid of the level
 
     public Vector2 levelGridSize; // The size of the level in grid spaces
+    public int offsetRoomPadding; // The space in between the rooms
 
     public RoomGenerator roomGenPrefab; // The RoomGenerator prefab to make rooms
 
@@ -30,9 +31,9 @@ public class LevelGenerator : Generator // Extends Generator Class
     public void Setup()
     {
         // Sets the level grid size in Unity world units
-        gridSizeWorldUnits.x = roomGenPrefab.gridSizeWorldUnits.x * levelGridSize.x;
-        gridSizeWorldUnits.y = roomGenPrefab.gridSizeWorldUnits.y * levelGridSize.y;
-        worldUnitsPerOneGridCell = roomGenPrefab.gridSizeWorldUnits.x;
+        worldUnitsPerOneGridCell = roomGenPrefab.gridSizeWorldUnits.x + offsetRoomPadding;
+        gridSizeWorldUnits.x = worldUnitsPerOneGridCell * levelGridSize.x;
+        gridSizeWorldUnits.y = worldUnitsPerOneGridCell * levelGridSize.y;        
 
         SetupGridSize();
 
@@ -70,6 +71,7 @@ public class LevelGenerator : Generator // Extends Generator Class
             SpawnGen();
             ChangeGenDir();
             MoveGen();
+            ClampGen();
 
             // If enough of the room grid is rooms then be done
             if ((float)NumberOfRooms() / (float)level.Length > percentGridCovered)
