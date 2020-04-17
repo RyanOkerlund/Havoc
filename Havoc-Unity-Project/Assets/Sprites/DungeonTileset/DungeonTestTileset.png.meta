@@ -7,7 +7,16 @@ TextureImporter:
     second: DungeonTestTileset_Wall
   - first:
       213: -4260872323249989022
-    second: DungeonTestTileset_Ground
+    second: DungeonTestTileset_Floor
+  - first:
+      213: 1658289310357830775
+    second: DungeonTestTileset_Door
+  - first:
+      213: 7572693211119640995
+    second: DungeonTestTileset_EntrancePortal
+  - first:
+      213: 7076311163655628567
+    second: DungeonTestTileset_ExitPortal
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -112,7 +121,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -125,10 +134,73 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonTestTileset_Ground
+      name: DungeonTestTileset_Floor
       rect:
         serializedVersion: 2
         x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26a146372375ed4c0800000000000000
+      internalID: -4260872323249989022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTestTileset_Door
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77cb4be775d630710800000000000000
+      internalID: 1658289310357830775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTestTileset_EntrancePortal
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a16cc98a5c971960800000000000000
+      internalID: 7572693211119640995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTestTileset_ExitPortal
+      rect:
+        serializedVersion: 2
+        x: 256
         y: 0
         width: 64
         height: 64
@@ -139,8 +211,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 26a146372375ed4c0800000000000000
-      internalID: -4260872323249989022
+      spriteID: 71723dde28b143260800000000000000
+      internalID: 7076311163655628567
       vertices: []
       indices: 
       edges: []

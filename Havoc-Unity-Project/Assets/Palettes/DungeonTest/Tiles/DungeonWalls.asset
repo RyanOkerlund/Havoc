@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e4e4fc705376343a3e65b25d94f0e2, type: 3}
+  m_Name: DungeonWalls
+  m_EditorClassIdentifier: 
+  m_Sprites:
+  - {fileID: 3115902641488759148, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 9117559930061694132, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: -7182380085896544367, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 2740389456291197432, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 2089450706895135935, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 8176362491617519256, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: -1644374399114621298, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: -6721388894845983734, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 8127657554295791634, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: -367925679783098235, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: -1492052120102279720, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 4182977484469397091, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 101439665156577551, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: -1092699255857940278, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}
+  - {fileID: 1104118086641267817, guid: 56a309a122bd3c948b3adf5fa1d85e79, type: 3}

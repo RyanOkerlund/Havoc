@@ -7,8 +7,8 @@ public class TopDownPlayerController : MonoBehaviour
     private Rigidbody2D rb;    
     private Animator anim;
 
-    [SerializeField] private float inputWalkingSpeed;
-    private float walkingSpeed;
+    [SerializeField] private float inputWalkingSpeed = 0f;
+    private float walkingSpeed = 0f;
     private float heading;
     private bool isCombatMode;
 
@@ -115,7 +115,7 @@ public class TopDownPlayerController : MonoBehaviour
             if (isWalking)
             {
                 // When we come back to sprite layer renderding, make it for the parent!!!
-                this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+                rb.MovePosition(rb.position + new Vector2(input_x, input_y).normalized * walkingSpeed * Time.fixedDeltaTime);
             }
         }
         else
@@ -123,7 +123,7 @@ public class TopDownPlayerController : MonoBehaviour
             if (isWalking)
             {
                 // When we come back to sprite layer renderding, make it for the parent!!!
-                this.transform.Translate(new Vector3(input_x, input_y, 0).normalized * walkingSpeed * Time.deltaTime);
+                rb.MovePosition(rb.position + new Vector2(input_x, input_y).normalized * walkingSpeed * Time.fixedDeltaTime);
                 this.WalkingModeAnimationManager(input_x, input_y);
             }
         }
