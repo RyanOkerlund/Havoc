@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 118886287290001332}
   - component: {fileID: 6660320373136205440}
   m_Layer: 0
-  m_Name: PlayerControlTestSS_0
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: -614773145
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7026500844313676341, guid: 7d25345a801ebe64b8cbc08b3bee80b0,
+  m_Sprite: {fileID: -3103639426738538178, guid: ec25ebd8ef2eb7540a23cac47a8ef4f1,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -157,7 +157,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.75}
     newSize: {x: 0.75, y: 0.8125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

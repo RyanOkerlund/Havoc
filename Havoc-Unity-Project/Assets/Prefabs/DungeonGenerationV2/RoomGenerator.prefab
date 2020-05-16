@@ -209,7 +209,7 @@ MonoBehaviour:
   floorsPalette:
   - {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
   wallsPalette:
-  - {fileID: 11400000, guid: de4c914088a293b4fadb2f194ddac6da, type: 2}
+  - {fileID: 11400000, guid: 984d5b006e641314fb7210cb1fbe83bb, type: 2}
   doorsPalette:
   - {fileID: 11400000, guid: 81f6ad76acb07d5459d7ee022457572b, type: 2}
   entrancePortalsPalette:
