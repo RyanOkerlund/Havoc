@@ -49,6 +49,10 @@ public class LevelGenerator : Generator // Extends Generator Class
             }
         }
 
+        // Set the horizontal and vertical location of doors for the level randomly
+        roomGenPrefab.horizontalDoorsYLocation = Mathf.FloorToInt(Random.Range(1f, roomGenPrefab.gridSizeWorldUnits.y));
+        roomGenPrefab.verticalDoorsXLocation = Mathf.FloorToInt(Random.Range(1f, roomGenPrefab.gridSizeWorldUnits.x));
+
         SetupFirstGenerator();
     }
 

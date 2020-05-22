@@ -126,7 +126,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077486281376090101}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -200,16 +200,18 @@ MonoBehaviour:
   gridHeight: 0
   worldUnitsPerOneGridCell: 1
   percentGridCovered: 0.4
-  maxGenerators: 10
-  chanceToChangeDir: 0.5
+  maxGenerators: 5
+  chanceToChangeDir: 0.8
   chanceToDestoryGen: 0.05
   chanceToSpawnGen: 0.05
+  horizontalDoorsYLocation: 0
+  verticalDoorsXLocation: 0
   roomPositionInLevel: {x: 8, y: 8}
   roomType: 1
   floorsPalette:
   - {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
   wallsPalette:
-  - {fileID: 11400000, guid: 984d5b006e641314fb7210cb1fbe83bb, type: 2}
+  - {fileID: 11400000, guid: de4c914088a293b4fadb2f194ddac6da, type: 2}
   doorsPalette:
   - {fileID: 11400000, guid: 81f6ad76acb07d5459d7ee022457572b, type: 2}
   entrancePortalsPalette:
