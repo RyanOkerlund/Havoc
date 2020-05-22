@@ -15,6 +15,9 @@ public class RoomGenerator : Generator // Extends Generator Class
     public enum roomSpace { empty, floor, wall, door, entrancePortal, exitPortal } // Room space types
     public roomSpace[,] room; // The grid of the room
 
+    public int horizontalDoorsYLocation;
+    public int verticalDoorsXLocation;
+
     public Vector2 roomPositionInLevel; // The room's position in the level
     public LevelGenerator.levelSpace roomType; // This room's type (see levelSpace enum in LevelGenerator Class)
 
@@ -103,6 +106,29 @@ public class RoomGenerator : Generator // Extends Generator Class
             }
 
             iterations++;
+        }
+        List<Vector2> surroundingRoomsLocations = GetAdjacentRooms();
+        foreach (Vector2 dir in surroundingRoomsLocations) {
+            if (dir == Vector2.right) {
+                for (int x = gridWidth / 2; x < gridWidth - 1; x++) {
+                    room[x, gridHeight / 2] = roomSpace.floor;
+                }
+            }
+            if (dir == Vector2.left) {
+                for (int x = 1; x < gridWidth / 2 + 1; x++) {
+                    room[x, gridHeight / 2] = roomSpace.floor;
+                }
+            }
+            if (dir == Vector2.up) {
+                for (int y = gridHeight / 2; y < gridHeight - 1; y++) {
+                    room[gridWidth / 2, y] = roomSpace.floor;
+                }
+            }
+            if (dir == Vector2.down) {
+                for (int y = 1; y < gridWidth / 2 + 1; y++) {
+                    room[gridWidth / 2, y] = roomSpace.floor;
+                }
+            }
         }
     }
 
@@ -202,82 +228,73 @@ public class RoomGenerator : Generator // Extends Generator Class
     // Generate a door given a direction to an adjacent room
     private void GenerateDoors(Vector2 dir)
     {
-        bool isDoorSpawned = false;
+        // bool isDoorSpawned = false;
         if (dir == Vector2.right)
         {
-            for (int x = gridWidth - 2; x > 0; x--)
-            {
-                for (int y = 0; y < gridHeight - 1; y++)
-                {
-                    if (room[x, y] == roomSpace.floor)
-                    {
-                        room[x + 1, y] = roomSpace.door;
-                        isDoorSpawned = true;
-                        break;
-                    }
-                }
-                if (isDoorSpawned == true)
-                {
-                    break;
-                }
-            }
+            room[gridWidth - 1, gridHeight / 2] = roomSpace.door;
+                // for (int y = 0; y < gridHeight - 1; y++)
+                // {
+                //     if (room[x, y] == roomSpace.floor)
+                //     {
+                //         room[x + 1, y] = roomSpace.door;
+                //         isDoorSpawned = true;
+                //         break;
+                //     }
+                // }
+                // if (isDoorSpawned == true)
+                // {
+                //     break;
         }
         else if (dir == Vector2.left)
         {
-            for (int x = 0; x < gridWidth - 1; x++)
-            {
-                for (int y = 0; y < gridHeight - 1; y++)
-                {
-                    if (room[x, y] == roomSpace.floor)
-                    {
-                        room[x - 1, y] = roomSpace.door;
-                        isDoorSpawned = true;
-                        break;
-                    }
-                }
-                if (isDoorSpawned == true)
-                {
-                    break;
-                }
-            }
+            room[0, gridHeight / 2] = roomSpace.door;
+                // for (int y = 0; y < gridHeight - 1; y++)
+                // {
+                //     if (room[x, y] == roomSpace.floor)
+                //     {
+                //         room[x - 1, y] = roomSpace.door;
+                //         isDoorSpawned = true;
+                //         break;
+                //     }
+                // }
+                // if (isDoorSpawned == true)
+                // {
+                //     break;
+                // }
         }
         else if (dir == Vector2.up)
         {
-            for (int y = gridHeight - 2; y > 0; y--)
-            {
-                for (int x = 0; x < gridWidth - 1; x++)
-                {
-                    if (room[x, y] == roomSpace.floor)
-                    {
-                        room[x, y + 1] = roomSpace.door;
-                        isDoorSpawned = true;
-                        break;
-                    }
-                }
-                if (isDoorSpawned == true)
-                {
-                    break;
-                }
-            }
+            room[gridWidth / 2, gridHeight - 1] = roomSpace.door;    
+                // for (int x = 0; x < gridWidth - 1; x++)
+                // {
+                //     if (room[x, y] == roomSpace.floor)
+                //     {
+                //         room[x, y + 1] = roomSpace.door;
+                //         isDoorSpawned = true;
+                //         break;
+                //     }
+                // }
+                // if (isDoorSpawned == true)
+                // {
+                //     break;
+                // }
         }
         else if (dir == Vector2.down)
         {
-            for (int y = 0; y < gridHeight - 1; y++)
-            {
-                for (int x = 0; x < gridWidth - 1; x++)
-                {
-                    if (room[x, y] == roomSpace.floor)
-                    {
-                        room[x, y - 1] = roomSpace.door;
-                        isDoorSpawned = true;
-                        break;
-                    }
-                }
-                if (isDoorSpawned == true)
-                {
-                    break;
-                }
-            }
+            room[gridWidth / 2, 0] = roomSpace.door;
+                // for (int x = 0; x < gridWidth - 1; x++)
+                // {
+                //     if (room[x, y] == roomSpace.floor)
+                //     {
+                //         room[x, y - 1] = roomSpace.door;
+                //         isDoorSpawned = true;
+                //         break;
+                //     }
+                // }
+                // if (isDoorSpawned == true)
+                // {
+                //     break;
+                // }
         }
     } 
     #endregion
