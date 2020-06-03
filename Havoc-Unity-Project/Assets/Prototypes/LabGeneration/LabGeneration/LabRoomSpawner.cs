@@ -1,25 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// Tilemaps used to spawn the room on a Tilemap
 using UnityEngine.Tilemaps;
 
-/*
- RoomGenerator Class:
- This class extends the Generator class to spawn a room with a random floor pattern.
- Works in conjuction with the LevelGenerator Class to create a unique dungeon level          
-*/
-public class RoomGenerator : Generator // Extends Generator Class
+public class LabRoomSpawner : Generator // Extends Generator Class
 {
-    LevelGenerator level = null; // The grid of the entire level
-    public enum roomSpace { empty, floor, wall, door, entrancePortal, exitPortal } // Room space types
-    public roomSpace[,] room; // The grid of the room
+    LabLevelGenerator labLevel = null; // The grid of the entire level
+    public enum labRoomSpace { empty, floor, wall, door, entrancePortal, exitPortal } // Room space types
+    public labRoomSpace[,] room; // The grid of the room
 
     // public int horizontalDoorsYLocation;
     // public int verticalDoorsXLocation;
 
-    public Vector2 roomPositionInLevel; // The room's position in the level
-    public LevelGenerator.levelSpace roomType; // This room's type (see levelSpace enum in LevelGenerator Class)
+    public Vector2 labRoomPosInLevel; // The room's position in the level
+    public LabLevelGenerator.labLevelSpace labRoomType; // This room's type (see levelSpace enum in LevelGenerator Class)
 
     public List<TileBase> floorsPalette; // The list of tiles to draw from for floors 
     public List<TileBase> wallsPalette; // The list of tiles to draw from for walls
@@ -27,6 +21,7 @@ public class RoomGenerator : Generator // Extends Generator Class
     public List<TileBase> entrancePortalsPalette; // The list of tiles to draw from for entrance portals
     public List<TileBase> exitPortalsPalette; // The list of tiles to draw from for exit portals
     public GameObject player; // The player prefab
+    public List<Grid> listOfRooms; // The List containing all possible rooms.
 
     Grid map; // The parent tilemap grid
     Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap; // The respective tilemaps for each type of tile
@@ -47,20 +42,20 @@ public class RoomGenerator : Generator // Extends Generator Class
     public void Setup()
     {
         // Get the reference for the level
-        level = GetComponentInParent<LevelGenerator>();
+        labLevel = GetComponentInParent<LabLevelGenerator>();
 
         SetupTilemaps();
         SetupGridSize();
 
         // Initialize the room grid
-        room = new roomSpace[gridWidth, gridHeight];
+        room = new labRoomSpace[gridWidth, gridHeight];
 
         // Set all the room spaces to a wall
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                room[x, y] = roomSpace.empty;
+                room[x, y] = labRoomSpace.empty;
             }
         }
 
@@ -89,7 +84,7 @@ public class RoomGenerator : Generator // Extends Generator Class
             // Change the location of each generator to a floor
             foreach (generator targetGen in generators)
             {
-                room[(int)targetGen.pos.x, (int)targetGen.pos.y] = roomSpace.floor;
+                room[(int)targetGen.pos.x, (int)targetGen.pos.y] = labRoomSpace.floor;
             }
 
             // See Generator Class
@@ -111,22 +106,22 @@ public class RoomGenerator : Generator // Extends Generator Class
         foreach (Vector2 dir in surroundingRoomsLocations) {
             if (dir == Vector2.right) {
                 for (int x = gridWidth / 2; x < gridWidth - 1; x++) {
-                    room[x, gridHeight / 2] = roomSpace.floor;
+                    room[x, gridHeight / 2] = labRoomSpace.floor;
                 }
             }
             if (dir == Vector2.left) {
                 for (int x = 1; x < gridWidth / 2 + 1; x++) {
-                    room[x, gridHeight / 2] = roomSpace.floor;
+                    room[x, gridHeight / 2] = labRoomSpace.floor;
                 }
             }
             if (dir == Vector2.up) {
                 for (int y = gridHeight / 2; y < gridHeight - 1; y++) {
-                    room[gridWidth / 2, y] = roomSpace.floor;
+                    room[gridWidth / 2, y] = labRoomSpace.floor;
                 }
             }
             if (dir == Vector2.down) {
                 for (int y = 1; y < gridWidth / 2 + 1; y++) {
-                    room[gridWidth / 2, y] = roomSpace.floor;
+                    room[gridWidth / 2, y] = labRoomSpace.floor;
                 }
             }
         }
@@ -136,9 +131,9 @@ public class RoomGenerator : Generator // Extends Generator Class
     private int NumberOfFloors()
     {
         int count = 0;
-        foreach (roomSpace space in room)
+        foreach (labRoomSpace space in room)
         {
-            if (space == roomSpace.floor)
+            if (space == labRoomSpace.floor)
             {
                 count++;
             }
@@ -152,30 +147,30 @@ public class RoomGenerator : Generator // Extends Generator Class
     private void GenerateWalls() {
         for (int x = 0; x < gridWidth; x++) {
             for (int y = 0; y < gridHeight; y++) {
-                if (room[x, y] == roomSpace.floor) {
-                    if (room[x + 1, y] == roomSpace.empty) {
-                        room[x + 1, y] = roomSpace.wall;
+                if (room[x, y] == labRoomSpace.floor) {
+                    if (room[x + 1, y] == labRoomSpace.empty) {
+                        room[x + 1, y] = labRoomSpace.wall;
                     }
-                    if (room[x - 1, y] == roomSpace.empty) {
-                        room[x - 1, y] = roomSpace.wall;
+                    if (room[x - 1, y] == labRoomSpace.empty) {
+                        room[x - 1, y] = labRoomSpace.wall;
                     }
-                    if (room[x, y + 1] == roomSpace.empty) {
-                        room[x, y + 1] = roomSpace.wall;
+                    if (room[x, y + 1] == labRoomSpace.empty) {
+                        room[x, y + 1] = labRoomSpace.wall;
                     }
-                    if (room[x, y - 1] == roomSpace.empty) {
-                        room[x, y - 1] = roomSpace.wall;
+                    if (room[x, y - 1] == labRoomSpace.empty) {
+                        room[x, y - 1] = labRoomSpace.wall;
                     }
-                    if (room[x + 1, y + 1] == roomSpace.empty) {
-                        room[x + 1, y  + 1] = roomSpace.wall;
+                    if (room[x + 1, y + 1] == labRoomSpace.empty) {
+                        room[x + 1, y  + 1] = labRoomSpace.wall;
                     }
-                    if (room[x + 1, y - 1] == roomSpace.empty) {
-                        room[x + 1, y - 1] = roomSpace.wall;
+                    if (room[x + 1, y - 1] == labRoomSpace.empty) {
+                        room[x + 1, y - 1] = labRoomSpace.wall;
                     }
-                    if (room[x - 1, y + 1] == roomSpace.empty) {
-                        room[x - 1, y + 1] = roomSpace.wall;
+                    if (room[x - 1, y + 1] == labRoomSpace.empty) {
+                        room[x - 1, y + 1] = labRoomSpace.wall;
                     }
-                    if (room[x - 1, y - 1] == roomSpace.empty) {
-                        room[x - 1, y - 1] = roomSpace.wall;
+                    if (room[x - 1, y - 1] == labRoomSpace.empty) {
+                        room[x - 1, y - 1] = labRoomSpace.wall;
                     }
                 }
             }
@@ -188,7 +183,7 @@ public class RoomGenerator : Generator // Extends Generator Class
     private void GenerateAllDoors()
     {
         // Only do this if this room is part of level
-        if (level != null)
+        if (labLevel != null)
         {
             List<Vector2> surroundingRoomsLocations = GetAdjacentRooms();
             foreach (Vector2 dir in surroundingRoomsLocations)
@@ -203,21 +198,21 @@ public class RoomGenerator : Generator // Extends Generator Class
     private List<Vector2> GetAdjacentRooms()
     {
         List<Vector2> adjacentRoomsLocations = new List<Vector2>();
-        if (level.level[(int)roomPositionInLevel.x, (int)roomPositionInLevel.y] != LevelGenerator.levelSpace.empty)
+        if (labLevel.labLevel[(int)labRoomPosInLevel.x, (int)labRoomPosInLevel.y] != LabLevelGenerator.labLevelSpace.empty)
         {
-            if (level.level[(int)(roomPositionInLevel.x + 1), (int)roomPositionInLevel.y] != LevelGenerator.levelSpace.empty)
+            if (labLevel.labLevel[(int)(labRoomPosInLevel.x + 1), (int)labRoomPosInLevel.y] != LabLevelGenerator.labLevelSpace.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.right);
             }
-            if (level.level[(int)(roomPositionInLevel.x - 1), (int)roomPositionInLevel.y] != LevelGenerator.levelSpace.empty)
+            if (labLevel.labLevel[(int)(labRoomPosInLevel.x - 1), (int)labRoomPosInLevel.y] != LabLevelGenerator.labLevelSpace.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.left);
             }
-            if (level.level[(int)roomPositionInLevel.x, (int)(roomPositionInLevel.y + 1)] != LevelGenerator.levelSpace.empty)
+            if (labLevel.labLevel[(int)labRoomPosInLevel.x, (int)(labRoomPosInLevel.y + 1)] != LabLevelGenerator.labLevelSpace.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.up);
             }
-            if (level.level[(int)roomPositionInLevel.x, (int)(roomPositionInLevel.y - 1)] != LevelGenerator.levelSpace.empty)
+            if (labLevel.labLevel[(int)labRoomPosInLevel.x, (int)(labRoomPosInLevel.y - 1)] != LabLevelGenerator.labLevelSpace.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.down);
             }
@@ -231,7 +226,7 @@ public class RoomGenerator : Generator // Extends Generator Class
         // bool isDoorSpawned = false;
         if (dir == Vector2.right)
         {
-            room[gridWidth - 1, gridHeight / 2] = roomSpace.door;
+            room[gridWidth - 1, gridHeight / 2] = labRoomSpace.door;
                 // for (int y = 0; y < gridHeight - 1; y++)
                 // {
                 //     if (room[x, y] == roomSpace.floor)
@@ -247,7 +242,7 @@ public class RoomGenerator : Generator // Extends Generator Class
         }
         else if (dir == Vector2.left)
         {
-            room[0, gridHeight / 2] = roomSpace.door;
+            room[0, gridHeight / 2] = labRoomSpace.door;
                 // for (int y = 0; y < gridHeight - 1; y++)
                 // {
                 //     if (room[x, y] == roomSpace.floor)
@@ -264,7 +259,7 @@ public class RoomGenerator : Generator // Extends Generator Class
         }
         else if (dir == Vector2.up)
         {
-            room[gridWidth / 2, gridHeight - 1] = roomSpace.door;    
+            room[gridWidth / 2, gridHeight - 1] = labRoomSpace.door;    
                 // for (int x = 0; x < gridWidth - 1; x++)
                 // {
                 //     if (room[x, y] == roomSpace.floor)
@@ -281,7 +276,7 @@ public class RoomGenerator : Generator // Extends Generator Class
         }
         else if (dir == Vector2.down)
         {
-            room[gridWidth / 2, 0] = roomSpace.door;
+            room[gridWidth / 2, 0] = labRoomSpace.door;
                 // for (int x = 0; x < gridWidth - 1; x++)
                 // {
                 //     if (room[x, y] == roomSpace.floor)
@@ -309,16 +304,16 @@ public class RoomGenerator : Generator // Extends Generator Class
             // Get a random x and y for a room grid space
             int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
-            if (room[x, y] == roomSpace.floor && IsSurroundedByFloors(x, y))
+            if (room[x, y] == labRoomSpace.floor && IsSurroundedByFloors(x, y))
             {
-                if (roomType == LevelGenerator.levelSpace.entrance)
+                if (labRoomType == LabLevelGenerator.labLevelSpace.entrance)
                 {
-                    room[x, y] = roomSpace.entrancePortal;
+                    room[x, y] = labRoomSpace.entrancePortal;
                     isPortalSpawned = true;
                 }
-                else if (roomType == LevelGenerator.levelSpace.exit)
+                else if (labRoomType == LabLevelGenerator.labLevelSpace.exit)
                 {
-                    room[x, y] = roomSpace.exitPortal;
+                    room[x, y] = labRoomSpace.exitPortal;
                     isPortalSpawned = true;
                 }
                 else
@@ -332,8 +327,8 @@ public class RoomGenerator : Generator // Extends Generator Class
     // Checks if the given location is surrounded by floors so that portals don't generate next to a wall
     private bool IsSurroundedByFloors(int x, int y)
     {
-        return room[x + 1, y] == roomSpace.floor && room[x - 1, y] == roomSpace.floor && room[x, y + 1] == roomSpace.floor && room[x, y - 1] == roomSpace.floor &&
-            room[x + 1, y + 1] == roomSpace.floor && room[x + 1, y - 1] == roomSpace.floor && room[x - 1, y + 1] == roomSpace.floor && room[x - 1, y - 1] == roomSpace.floor;
+        return room[x + 1, y] == labRoomSpace.floor && room[x - 1, y] == labRoomSpace.floor && room[x, y + 1] == labRoomSpace.floor && room[x, y - 1] == labRoomSpace.floor &&
+            room[x + 1, y + 1] == labRoomSpace.floor && room[x + 1, y - 1] == labRoomSpace.floor && room[x - 1, y + 1] == labRoomSpace.floor && room[x - 1, y - 1] == labRoomSpace.floor;
     }
     #endregion
 
@@ -347,22 +342,22 @@ public class RoomGenerator : Generator // Extends Generator Class
             {
                 switch (room[x, y])
                 {
-                    case roomSpace.empty:
+                    case labRoomSpace.empty:
                         continue;
-                    case roomSpace.floor:
+                    case labRoomSpace.floor:
                         SpawnTile(x, y, floorTilemap, floorsPalette);
                         break;
-                    case roomSpace.wall:
+                    case labRoomSpace.wall:
                         SpawnTile(x, y, wallTilemap, wallsPalette);
                         break;
-                    case roomSpace.door:
+                    case labRoomSpace.door:
                         SpawnTile(x, y, doorTilemap, doorsPalette);
                         break;
-                    case roomSpace.entrancePortal: // Need to spawn player as well at this location                       
+                    case labRoomSpace.entrancePortal: // Need to spawn player as well at this location                       
                         SpawnPlayer(x - gridWidth / 2, y - gridHeight / 2); // Need to offset the location to make it within the room
                         SpawnTile(x, y, portalTilemap, entrancePortalsPalette);
                         break;
-                    case roomSpace.exitPortal:
+                    case labRoomSpace.exitPortal:
                         SpawnTile(x, y, portalTilemap, exitPortalsPalette);
                         break;
                 }

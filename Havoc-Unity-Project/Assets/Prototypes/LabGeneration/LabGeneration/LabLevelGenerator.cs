@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- LevelGenerator Class:
- This class extends the Generator class to spawn a Level with a random rooms pattern.
- Works in conjuction with the RoomGenerator Class to create a unique dungeon level          
-*/
-public class LevelGenerator : Generator // Extends Generator Class
+public class LabLevelGenerator : Generator // Extends Generator Class
 {
-    public enum levelSpace { empty, room, entrance, exit, bossRoom, loreRoom } // Level space types (i.e. room types)
-    public levelSpace[,] level; // The grid of the level
+    public enum labLevelSpace { empty, room, entrance, exit, bossRoom, loreRoom } // Level space types (i.e. room types)
+    public labLevelSpace[,] labLevel; // The grid of the level
 
-    public Vector2 levelGridSize; // The size of the level in grid spaces
-    public int offsetRoomPadding; // The space in between the rooms
+    public Vector2 labLevelGridSize; // The size of the level in grid spaces
+    public int offsetLabRoomPadding; // The space in between the rooms
 
-    public RoomGenerator roomGenPrefab; // The RoomGenerator prefab to make rooms
+    public LabRoomSpawner labRoomSpawnerPrefab; // The RoomGenerator prefab to make rooms
 
     // Runs all the code to make the level
     private void Start()
@@ -31,21 +26,21 @@ public class LevelGenerator : Generator // Extends Generator Class
     public void Setup()
     {
         // Sets the level grid size in Unity world units
-        worldUnitsPerOneGridCell = roomGenPrefab.gridSizeWorldUnits.x + offsetRoomPadding;
-        gridSizeWorldUnits.x = worldUnitsPerOneGridCell * levelGridSize.x;
-        gridSizeWorldUnits.y = worldUnitsPerOneGridCell * levelGridSize.y;        
+        worldUnitsPerOneGridCell = labRoomSpawnerPrefab.gridSizeWorldUnits.x + offsetLabRoomPadding;
+        gridSizeWorldUnits.x = worldUnitsPerOneGridCell * labLevelGridSize.x;
+        gridSizeWorldUnits.y = worldUnitsPerOneGridCell * labLevelGridSize.y;        
 
         SetupGridSize();
 
         // Initialize the level grid
-        level = new levelSpace[gridWidth, gridHeight];
+        labLevel = new labLevelSpace[gridWidth, gridHeight];
 
         // Set all the level grid spaces to empty
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                level[x, y] = levelSpace.empty;
+                labLevel[x, y] = labLevelSpace.empty;
             }
         }
 
@@ -67,7 +62,7 @@ public class LevelGenerator : Generator // Extends Generator Class
             // Change the location of each generator to a room
             foreach (generator targetGen in generators)
             {
-                level[(int)targetGen.pos.x, (int)targetGen.pos.y] = levelSpace.room;
+                labLevel[(int)targetGen.pos.x, (int)targetGen.pos.y] = labLevelSpace.room;
             }
 
             // See Generator Class
@@ -78,7 +73,7 @@ public class LevelGenerator : Generator // Extends Generator Class
             ClampGen();
 
             // If enough of the room grid is rooms then be done
-            if ((float)NumberOfRooms() / (float)level.Length > percentGridCovered)
+            if ((float)NumberOfRooms() / (float)labLevel.Length > percentGridCovered)
             {
                 break;
             }
@@ -90,9 +85,9 @@ public class LevelGenerator : Generator // Extends Generator Class
     private int NumberOfRooms()
     {
         int count = 0;
-        foreach (levelSpace room in level)
+        foreach (labLevelSpace room in labLevel)
         {
-            if (room != levelSpace.empty)
+            if (room != labLevelSpace.empty)
             {
                 count++;
             }
@@ -105,7 +100,7 @@ public class LevelGenerator : Generator // Extends Generator Class
     private void SetEntrance()
     {
         Vector2 spawnPos = new Vector2(Mathf.FloorToInt(gridWidth / 2.0f), Mathf.FloorToInt(gridHeight / 2.0f));
-        level[(int)spawnPos.x, (int)spawnPos.y] = levelSpace.entrance;
+        labLevel[(int)spawnPos.x, (int)spawnPos.y] = labLevelSpace.entrance;
     }
 
     #region GenerateExit
@@ -118,9 +113,9 @@ public class LevelGenerator : Generator // Extends Generator Class
             int x = Mathf.FloorToInt(Random.value * (gridWidth - 1));
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
             // So long as that location is a regular room and isn't next to the entrance and is next to another room, set exit
-            if (level[x, y] == levelSpace.room && IsNotNextToEntrance(x, y) && IsNextToAnotherRoom(x, y))
+            if (labLevel[x, y] == labLevelSpace.room && IsNotNextToEntrance(x, y) && IsNextToAnotherRoom(x, y))
             {
-                level[x, y] = levelSpace.exit;
+                labLevel[x, y] = labLevelSpace.exit;
                 isExitSet = true;
             }
         }
@@ -129,15 +124,15 @@ public class LevelGenerator : Generator // Extends Generator Class
     // Checks if the given location is next to the entrance room
     private bool IsNotNextToEntrance(int x, int y)
     {
-        return level[x + 1, y] != levelSpace.entrance && level[x - 1, y] != levelSpace.entrance
-            && level[x, y + 1] != levelSpace.entrance && level[x, y - 1] != levelSpace.entrance;
+        return labLevel[x + 1, y] != labLevelSpace.entrance && labLevel[x - 1, y] != labLevelSpace.entrance
+            && labLevel[x, y + 1] != labLevelSpace.entrance && labLevel[x, y - 1] != labLevelSpace.entrance;
     }
 
     // Checks if the location is next to another room
     private bool IsNextToAnotherRoom(int x, int y)
     {
-        return level[x + 1, y] == levelSpace.room || level[x - 1, y] == levelSpace.room ||
-            level[x, y + 1] == levelSpace.room || level[x, y - 1] == levelSpace.room;
+        return labLevel[x + 1, y] == labLevelSpace.room || labLevel[x - 1, y] == labLevelSpace.room ||
+            labLevel[x, y + 1] == labLevelSpace.room || labLevel[x, y - 1] == labLevelSpace.room;
     }
     #endregion
 
@@ -149,22 +144,22 @@ public class LevelGenerator : Generator // Extends Generator Class
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                roomGenPrefab.roomPositionInLevel.x = x;
-                roomGenPrefab.roomPositionInLevel.y = y;
-                switch (level[x, y])
+                labRoomSpawnerPrefab.labRoomPosInLevel.x = x;
+                labRoomSpawnerPrefab.labRoomPosInLevel.y = y;
+                switch (labLevel[x, y])
                 {
-                    case levelSpace.empty:
+                    case labLevelSpace.empty:
                         continue;
-                    case levelSpace.room:
-                        roomGenPrefab.roomType = levelSpace.room;
+                    case labLevelSpace.room:
+                        labRoomSpawnerPrefab.labRoomType = labLevelSpace.room;
                         Spawn(x, y);
                         break;
-                    case levelSpace.entrance:
-                        roomGenPrefab.roomType = levelSpace.entrance;
+                    case labLevelSpace.entrance:
+                        labRoomSpawnerPrefab.labRoomType = labLevelSpace.entrance;
                         Spawn(x, y);
                         break;
-                    case levelSpace.exit:
-                        roomGenPrefab.roomType = levelSpace.exit;
+                    case labLevelSpace.exit:
+                        labRoomSpawnerPrefab.labRoomType = labLevelSpace.exit;
                         Spawn(x, y);
                         break;
                     // This is where you add more room types (i.e. boss rooms, lore rooms, etc)
@@ -178,7 +173,7 @@ public class LevelGenerator : Generator // Extends Generator Class
     {
         Vector2 offset = gridSizeWorldUnits / 2.0f;
         Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
-        Instantiate(roomGenPrefab, spawnPos, Quaternion.identity, this.transform);
+        Instantiate(labRoomSpawnerPrefab, spawnPos, Quaternion.identity, this.transform);
     } 
     #endregion
 }
