@@ -14,12 +14,10 @@ public class RoomGenerator : Generator // Extends Generator Class
     LevelGenerator level = null; // The grid of the entire level
     public enum roomSpace { empty, floor, wall, door, entrancePortal, exitPortal } // Room space types
     public roomSpace[,] room; // The grid of the room
-
-    // public int horizontalDoorsYLocation;
-    // public int verticalDoorsXLocation;
+    public Vector2 wallBuffer; // The outer wall (of the whole room) thickness
 
     public Vector2 roomPositionInLevel; // The room's position in the level
-    public LevelGenerator.levelSpace roomType; // This room's type (see levelSpace enum in LevelGenerator Class)
+    public Room.RoomTypes roomType; // This room's type (see levelSpace enum in LevelGenerator Class)
 
     public List<TileBase> floorsPalette; // The list of tiles to draw from for floors 
     public List<TileBase> wallsPalette; // The list of tiles to draw from for walls
@@ -60,7 +58,7 @@ public class RoomGenerator : Generator // Extends Generator Class
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                room[x, y] = roomSpace.empty;
+                room[x, y] = roomSpace.wall;
             }
         }
 
@@ -93,11 +91,11 @@ public class RoomGenerator : Generator // Extends Generator Class
             }
 
             // See Generator Class
-            DestoryGen();
-            SpawnGen();
+            // DestoryGen();
+            // SpawnGen();
             ChangeGenDir();
-            MoveGen();
-            ClampGen();
+            // MoveGen();
+            ClampGen(wallBuffer);
 
             // If enough of the room grid is floors then be done
             if ((float)NumberOfFloors() / (float)room.Length > percentGridCovered)
@@ -129,6 +127,17 @@ public class RoomGenerator : Generator // Extends Generator Class
                     room[gridWidth / 2, y] = roomSpace.floor;
                 }
             }
+        }
+    }
+
+    public void ClampGenForRoom()
+    {
+        for (int i = 0; i < generators.Count; i++)
+        {
+            generator targetGen = generators[i];
+            targetGen.pos.x = Mathf.Clamp(targetGen.pos.x, 5, gridWidth - 6);
+            targetGen.pos.y = Mathf.Clamp(targetGen.pos.y, 7, gridHeight - 8);
+            generators[i] = targetGen;
         }
     }
 
@@ -203,21 +212,21 @@ public class RoomGenerator : Generator // Extends Generator Class
     private List<Vector2> GetAdjacentRooms()
     {
         List<Vector2> adjacentRoomsLocations = new List<Vector2>();
-        if (level.level[(int)roomPositionInLevel.x, (int)roomPositionInLevel.y] != LevelGenerator.levelSpace.empty)
+        if (level.level[(int)roomPositionInLevel.x, (int)roomPositionInLevel.y].room.type != Room.RoomTypes.empty)
         {
-            if (level.level[(int)(roomPositionInLevel.x + 1), (int)roomPositionInLevel.y] != LevelGenerator.levelSpace.empty)
+            if (level.level[(int)(roomPositionInLevel.x + 1), (int)roomPositionInLevel.y].room.type != Room.RoomTypes.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.right);
             }
-            if (level.level[(int)(roomPositionInLevel.x - 1), (int)roomPositionInLevel.y] != LevelGenerator.levelSpace.empty)
+            if (level.level[(int)(roomPositionInLevel.x - 1), (int)roomPositionInLevel.y].room.type != Room.RoomTypes.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.left);
             }
-            if (level.level[(int)roomPositionInLevel.x, (int)(roomPositionInLevel.y + 1)] != LevelGenerator.levelSpace.empty)
+            if (level.level[(int)roomPositionInLevel.x, (int)(roomPositionInLevel.y + 1)].room.type != Room.RoomTypes.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.up);
             }
-            if (level.level[(int)roomPositionInLevel.x, (int)(roomPositionInLevel.y - 1)] != LevelGenerator.levelSpace.empty)
+            if (level.level[(int)roomPositionInLevel.x, (int)(roomPositionInLevel.y - 1)].room.type != Room.RoomTypes.empty)
             {
                 adjacentRoomsLocations.Add(Vector2.down);
             }
@@ -311,12 +320,12 @@ public class RoomGenerator : Generator // Extends Generator Class
             int y = Mathf.FloorToInt(Random.value * (gridHeight - 1));
             if (room[x, y] == roomSpace.floor && IsSurroundedByFloors(x, y))
             {
-                if (roomType == LevelGenerator.levelSpace.entrance)
+                if (roomType == Room.RoomTypes.entrance)
                 {
                     room[x, y] = roomSpace.entrancePortal;
                     isPortalSpawned = true;
                 }
-                else if (roomType == LevelGenerator.levelSpace.exit)
+                else if (roomType == Room.RoomTypes.exit)
                 {
                     room[x, y] = roomSpace.exitPortal;
                     isPortalSpawned = true;

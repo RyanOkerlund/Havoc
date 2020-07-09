@@ -71,31 +71,18 @@ public abstract class Generator : MonoBehaviour
     // Loops through the generators and tries to destory them
     public void DestoryGen()
     {
-        int numGens = generators.Count; // might change in the loop DON'T CHANGE!
-        for (int i = 0; i < numGens; i++)
-        {
-            if (Random.value < chanceToDestoryGen && generators.Count > 1)
-            {
-                generators.RemoveAt(i);
-                break;
-            }
+        for (int i = 0; i < generators.Count; i++) {
+            generators.RemoveAt(i);
         }
     }
 
     // Tries to spawn new generators as long as the max isn't reached
-    public void SpawnGen()
+    public void SpawnGen(Vector2 dir, Vector2 pos, List<generator> genList)
     {
-        int numGens = generators.Count; // might change in the loop DON'T CHANGE!
-        for (int i = 0; i < numGens; i++)
-        {
-            if (Random.value < chanceToSpawnGen && generators.Count < maxGenerators)
-            {
-                generator newGen = new generator();
-                newGen.dir = RandomDirection();
-                newGen.pos = generators[i].pos;
-                generators.Add(newGen);
-            }
-        }
+        generator newGen = new generator();
+        newGen.dir = dir;
+        newGen.pos = pos;
+        genList.Add(newGen);
     }
 
     // Loops through generators and tries to change there direction
@@ -113,24 +100,36 @@ public abstract class Generator : MonoBehaviour
     }
 
     // Moves all generators in their direciton on grid space
-    public void MoveGen()
+    public void MoveGen(List<generator> genList)
     {
-        for (int i = 0; i < generators.Count; i++)
+        for (int i = 0; i < genList.Count; i++)
         {
-            generator targetGen = generators[i];
+            generator targetGen = genList[i];
             targetGen.pos += targetGen.dir;
-            generators[i] = targetGen;
+            genList[i] = targetGen;
         }
     }
 
     // Prevents generator from moving to an edge of the grid
-    public void ClampGen()
+    public void ClampGen(List<generator> genList)
+    {
+        for (int i = 0; i < genList.Count; i++)
+        {
+            generator targetGen = genList[i];
+            targetGen.pos.x = Mathf.Clamp(targetGen.pos.x, 1, gridWidth - 2);
+            targetGen.pos.y = Mathf.Clamp(targetGen.pos.y, 1, gridHeight - 2);
+            genList[i] = targetGen;
+        }
+    }
+
+    // Prevents generator from moving to an edge of the grid given a buffer zone
+    public void ClampGen(Vector2 wallBuffer)
     {
         for (int i = 0; i < generators.Count; i++)
         {
             generator targetGen = generators[i];
-            targetGen.pos.x = Mathf.Clamp(targetGen.pos.x, 1, gridWidth - 2);
-            targetGen.pos.y = Mathf.Clamp(targetGen.pos.y, 1, gridHeight - 2);
+            targetGen.pos.x = Mathf.Clamp(targetGen.pos.x, 1 + wallBuffer.x, gridWidth - 2 - wallBuffer.x);
+            targetGen.pos.y = Mathf.Clamp(targetGen.pos.y, 1 + wallBuffer.y, gridHeight - 2 - wallBuffer.y);
             generators[i] = targetGen;
         }
     }

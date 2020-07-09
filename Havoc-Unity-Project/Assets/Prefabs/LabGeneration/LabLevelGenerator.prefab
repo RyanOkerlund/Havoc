@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3158493262924517995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 541418007864382941}
+  m_Layer: 0
+  m_Name: Rooms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &541418007864382941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158493262924517995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6049112957076285426}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6049112957076285437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6049112957076285426}
+  - component: {fileID: 279434292}
+  m_Layer: 0
+  m_Name: LabLevelGenerator
+  m_TagString: LabLevelGenerator
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6049112957076285426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049112957076285437}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 541418007864382941}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &279434292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049112957076285437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfce02f9742d1143b31f381ff4134ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSizeWorldUnits: {x: 135, y: 135}
+  gridWidth: 0
+  gridHeight: 0
+  worldUnitsPerOneGridCell: 15
+  percentGridCovered: 0.1
+  maxGenerators: 4
+  chanceToChangeDir: 0.7
+  chanceToDestoryGen: 0.1
+  chanceToSpawnGen: 0.1
+  rooms:
+  - {fileID: 11400000, guid: 3f5c74b935a2f3f48a17500bad83df32, type: 2}
+  - {fileID: 11400000, guid: 1e5239708bbac004998f9960d38f5ead, type: 2}
+  - {fileID: 11400000, guid: f28eacb6af94860428c63ebb2eb9964a, type: 2}
+  - {fileID: 11400000, guid: 1a010f51337139441b36c7cc6007247f, type: 2}
+  - {fileID: 11400000, guid: 52b91c3a41c871f4fba7c8248ad8dcd6, type: 2}
+  - {fileID: 11400000, guid: 3edead33054819248bc9d50a31bbf7a7, type: 2}
+  - {fileID: 11400000, guid: 47feadd785293e84e916b694ced0b079, type: 2}
+  - {fileID: 11400000, guid: dbea840dd2115384bb07785a9147e47f, type: 2}
+  levelGridSize: {x: 9, y: 9}
+  offsetRoomPadding: 0
+  labRoomGenPrefab: {fileID: 6787566486439881441, guid: 096084f3bb259d7498ee27891c3ecafa,
+    type: 3}

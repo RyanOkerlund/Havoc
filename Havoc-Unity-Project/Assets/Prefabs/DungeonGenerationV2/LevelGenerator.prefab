@@ -53,6 +53,6 @@ MonoBehaviour:
   chanceToDestoryGen: 0.3
   chanceToSpawnGen: 0.7
   levelGridSize: {x: 9, y: 9}
-  offsetRoomPadding: 0
+  offsetRoomPadding: 5
   roomGenPrefab: {fileID: 1611012505418935587, guid: e3a82d998428623409925abe889e9d5c,
     type: 3}
