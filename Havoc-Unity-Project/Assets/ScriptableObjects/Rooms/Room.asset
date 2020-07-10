@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d77b919876415f45b6ef1ac9ca8f4eb, type: 3}
+  m_Name: Room
+  m_EditorClassIdentifier: 
+  roomName: Room
+  type: 1
+  minNumDoors: 1
+  maxNumDoors: 4
+  chanceToSpawnDoor: 0.25
+  chanceToSpawnOpenWall: 0.5
+  floorTile: {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
+  wallTile: {fileID: 11400000, guid: 5214c40dbe78ff44f865c286e56ea728, type: 2}
+  doorTile: {fileID: 11400000, guid: db998390b5404be49ac9f6d0b9c5a5d8, type: 2}
