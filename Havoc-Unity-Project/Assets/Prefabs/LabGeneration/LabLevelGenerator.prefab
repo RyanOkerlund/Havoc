@@ -79,19 +79,16 @@ MonoBehaviour:
   gridHeight: 0
   worldUnitsPerOneGridCell: 15
   percentGridCovered: 0.1
-  maxGenerators: 4
-  chanceToChangeDir: 0.7
-  chanceToDestoryGen: 0.1
-  chanceToSpawnGen: 0.1
+  maxNumRooms: 5
+  entranceRoom: {fileID: 11400000, guid: f28eacb6af94860428c63ebb2eb9964a, type: 2}
+  exitRoom: {fileID: 11400000, guid: 1a010f51337139441b36c7cc6007247f, type: 2}
+  borderRoom: {fileID: 11400000, guid: dbea840dd2115384bb07785a9147e47f, type: 2}
+  emptyRoom: {fileID: 11400000, guid: 3f5c74b935a2f3f48a17500bad83df32, type: 2}
   rooms:
-  - {fileID: 11400000, guid: 3f5c74b935a2f3f48a17500bad83df32, type: 2}
-  - {fileID: 11400000, guid: 1e5239708bbac004998f9960d38f5ead, type: 2}
-  - {fileID: 11400000, guid: f28eacb6af94860428c63ebb2eb9964a, type: 2}
-  - {fileID: 11400000, guid: 1a010f51337139441b36c7cc6007247f, type: 2}
   - {fileID: 11400000, guid: 52b91c3a41c871f4fba7c8248ad8dcd6, type: 2}
-  - {fileID: 11400000, guid: 3edead33054819248bc9d50a31bbf7a7, type: 2}
   - {fileID: 11400000, guid: 47feadd785293e84e916b694ced0b079, type: 2}
-  - {fileID: 11400000, guid: dbea840dd2115384bb07785a9147e47f, type: 2}
+  - {fileID: 11400000, guid: 3edead33054819248bc9d50a31bbf7a7, type: 2}
+  - {fileID: 11400000, guid: 1e5239708bbac004998f9960d38f5ead, type: 2}
   levelGridSize: {x: 9, y: 9}
   offsetRoomPadding: 0
   labRoomGenPrefab: {fileID: 6787566486439881441, guid: 096084f3bb259d7498ee27891c3ecafa,

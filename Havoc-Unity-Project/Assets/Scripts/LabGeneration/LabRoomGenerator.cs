@@ -5,14 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class LabRoomGenerator : MonoBehaviour
 {
-    LevelGenerator.LevelSpace levelSpace;
+    LabLevelGenerator.LevelSpace levelSpace;
 
     public Vector2 roomSize;
 
     Grid map; // The parent tilemap grid
     Tilemap floorTilemap, wallTilemap, doorTilemap, portalTilemap; // The respective tilemaps for each type of tile
 
-    public void init(LevelGenerator.LevelSpace levelSpaceFromLevel) {
+    public void init(LabLevelGenerator.LevelSpace levelSpaceFromLevel) {
         levelSpace = levelSpaceFromLevel;
         name = levelSpace.room.name + " at [" + levelSpace.gridPos.x + ", " + levelSpace.gridPos.y + "]";
         Setup();
@@ -34,36 +34,133 @@ public class LabRoomGenerator : MonoBehaviour
     }
 
     private void GenerateWalls() {
-        for (int x = 0; x < roomSize.x; x++) {
-            for (int y = 0; y < roomSize.y; y++) {
-                Vector2 spawnPos = new Vector2(x, y);
-                SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+        if (levelSpace.room.type != Room.RoomTypes.hallway) {
+            for (int x = 0; x < roomSize.x; x++) {
+                for (int y = 0; y < roomSize.y; y++) {
+                    Vector2 spawnPos = new Vector2(x, y);
+                    SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+                }
+            }
+        }
+        else {
+            for (int x = 5; x < roomSize.x - 5; x++) {
+                for (int y = 5; y < roomSize.y - 5; y++) {               
+                    Vector2 spawnPos = new Vector2(x, y);
+                    SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+                }
+            }
+            foreach (LabLevelGenerator.wall wall in levelSpace.walls) {
+                if (wall.wallType == LabLevelGenerator.wallTypes.door) {
+                    if (wall.direction == LabLevelGenerator.wallDirections.up) {
+                        for (int x = 5; x < roomSize.x - 5; x++) {
+                            for (int y = 7; y < roomSize.y; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+                            }
+                        }
+                    }
+                    else if (wall.direction == LabLevelGenerator.wallDirections.right) {
+                        for (int x = 7; x < roomSize.x; x++) {
+                            for (int y = 5; y < roomSize.y - 5; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+                            }
+                        }
+                    }
+                    else if (wall.direction == LabLevelGenerator.wallDirections.down) {
+                        for (int x = 5; x < roomSize.x - 5; x++) {
+                            for (int y = 0; y < roomSize.y - 7; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+                            }
+                        }
+                    }
+                    else {
+                        for (int x = 0; x < roomSize.x - 7; x++) {
+                            for (int y = 5; y < roomSize.y - 5; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, levelSpace.room.wallTile);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     private void GenerateFloors() {
-        for (int x = 1; x < roomSize.x - 1; x++) {
-            for (int y = 1; y < roomSize.y - 1; y++) {               
-                Vector2 spawnPos = new Vector2(x, y);
-                SpawnTile(spawnPos, wallTilemap, null);
-                SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+        if (levelSpace.room.type != Room.RoomTypes.hallway) {
+            for (int x = 1; x < roomSize.x - 1; x++) {
+                for (int y = 1; y < roomSize.y - 1; y++) {               
+                    Vector2 spawnPos = new Vector2(x, y);
+                    SpawnTile(spawnPos, wallTilemap, null);
+                    SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+                }
+            }
+        }
+        else {
+            for (int x = 6; x < roomSize.x - 6; x++) {
+                for (int y = 6; y < roomSize.y - 6; y++) {               
+                    Vector2 spawnPos = new Vector2(x, y);
+                    SpawnTile(spawnPos, wallTilemap, null);
+                    SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+                }
+            }
+            foreach (LabLevelGenerator.wall wall in levelSpace.walls) {
+                if (wall.wallType == LabLevelGenerator.wallTypes.door) {
+                    if (wall.direction == LabLevelGenerator.wallDirections.up) {
+                        for (int x = 6; x < roomSize.x - 6; x++) {
+                            for (int y = 7; y < roomSize.y - 1; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, null);
+                                SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+                            }
+                        }
+                    }
+                    else if (wall.direction == LabLevelGenerator.wallDirections.right) {
+                        for (int x = 7; x < roomSize.x - 1; x++) {
+                            for (int y = 6; y < roomSize.y - 6; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, null);
+                                SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+                            }
+                        }
+                    }
+                    else if (wall.direction == LabLevelGenerator.wallDirections.down) {
+                        for (int x = 6; x < roomSize.x - 6; x++) {
+                            for (int y = 1; y < roomSize.y - 7; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, null);
+                                SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+                            }
+                        }
+                    }
+                    else {
+                        for (int x = 1; x < roomSize.x - 7; x++) {
+                            for (int y = 6; y < roomSize.y - 6; y++) {
+                                Vector2 spawnPos = new Vector2(x, y);
+                                SpawnTile(spawnPos, wallTilemap, null);
+                                SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     private void GenerateDoors() {
-        foreach (LevelGenerator.wall wall in levelSpace.walls) {
-            if (wall.hasDoor) {
+        foreach (LabLevelGenerator.wall wall in levelSpace.walls) {
+            if (wall.wallType == LabLevelGenerator.wallTypes.door) {
                 // Debug.Log("Spawning door on " + wall.direction);
                 Vector2 spawnPos;
-                if (wall.direction == LevelGenerator.wallDirections.up) {
+                if (wall.direction == LabLevelGenerator.wallDirections.up) {
                     spawnPos = new Vector2(roomSize.x / 2, roomSize.y - 1);
                 }
-                else if (wall.direction == LevelGenerator.wallDirections.right) {
+                else if (wall.direction == LabLevelGenerator.wallDirections.right) {
                     spawnPos = new Vector2(roomSize.x - 1, roomSize.y / 2);
                 }
-                else if (wall.direction == LevelGenerator.wallDirections.down) {
+                else if (wall.direction == LabLevelGenerator.wallDirections.down) {
                     spawnPos = new Vector2(roomSize.x / 2, 0);
                 }
                 else {
@@ -73,23 +170,23 @@ public class LabRoomGenerator : MonoBehaviour
                 SpawnTile(spawnPos, doorTilemap, levelSpace.room.doorTile);
             }
             // Don't know if this works at all.
-            else if (wall.wallType == LevelGenerator.wallTypes.open) {
+            else if (wall.wallType == LabLevelGenerator.wallTypes.open) {
                 Vector2 spawnPos;
-                if (wall.direction == LevelGenerator.wallDirections.up) {
+                if (wall.direction == LabLevelGenerator.wallDirections.up) {
                     for (int i = 1; i < roomSize.x; i++) {
                         spawnPos = new Vector2(levelSpace.spawnPos.x + i, levelSpace.spawnPos.y + roomSize.y);
                         SpawnTile(spawnPos, wallTilemap, null);
                         SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
                     }
                 }
-                else if (wall.direction == LevelGenerator.wallDirections.right) {
+                else if (wall.direction == LabLevelGenerator.wallDirections.right) {
                     for (int j = 1; j < roomSize.y; j++) {
                         spawnPos = new Vector2(levelSpace.spawnPos.x + roomSize.x, levelSpace.spawnPos.y + j);
                         SpawnTile(spawnPos, wallTilemap, null);
                         SpawnTile(spawnPos, floorTilemap, levelSpace.room.floorTile);
                     }
                 }
-                else if (wall.direction == LevelGenerator.wallDirections.down) {
+                else if (wall.direction == LabLevelGenerator.wallDirections.down) {
                     for (int i = 1; i < roomSize.x; i++) {
                         spawnPos = new Vector2(levelSpace.spawnPos.x + i, levelSpace.spawnPos.y);
                         SpawnTile(spawnPos, wallTilemap, null);

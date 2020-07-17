@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: Exit
   type: 3
+  isCountedAsRoom: 1
   minNumDoors: 1
   maxNumDoors: 4
+  chanceToSpawn: 0
   chanceToSpawnDoor: 0.5
   chanceToSpawnOpenWall: 0.5
   floorTile: {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}

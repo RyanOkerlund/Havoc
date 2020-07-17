@@ -712,3 +712,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomSize: {x: 15, y: 15}
+  hallway: {fileID: 11400000, guid: 47feadd785293e84e916b694ced0b079, type: 2}

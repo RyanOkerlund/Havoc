@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: Boss Room
   type: 4
+  isCountedAsRoom: 1
   minNumDoors: 1
   maxNumDoors: 1
+  chanceToSpawn: 0.1
   chanceToSpawnDoor: 0.5
   chanceToSpawnOpenWall: 0
   floorTile: {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
