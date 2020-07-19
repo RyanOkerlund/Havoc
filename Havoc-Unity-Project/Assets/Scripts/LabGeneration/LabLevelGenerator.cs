@@ -32,6 +32,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         public Vector2 spawnPos;
         public int numberOpenings;
         public Room room;
+        // public Vector2 dirCameFrom;
         public wall[] walls;
         public LevelSpace[] adjacentRooms;
         public List<Vector2> directionsToMove;
@@ -209,43 +210,84 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         for (int i = 0; i < 4; i++) {
             switch (i) {
                 case UP_INDEX:
-                    if (level[x, y].adjacentRooms[UP_INDEX].walls[DOWN_INDEX].wallType == wallTypes.door) {
-                        level[x, y].walls[UP_INDEX].wallType = wallTypes.door;
-                        level[x, y].numberOpenings++;
+                    if (!IsBoundaryRoom(level[x, y].adjacentRooms[UP_INDEX])) {
+                        if (level[x, y].adjacentRooms[UP_INDEX].walls[DOWN_INDEX].wallType == wallTypes.door) {
+                            level[x, y].walls[UP_INDEX].wallType = wallTypes.door;
+                            level[x, y].numberOpenings++;
+                        }
+                        else if (level[x, y].adjacentRooms[UP_INDEX].walls[DOWN_INDEX].wallType == wallTypes.closed) {
+                            level[x, y].walls[UP_INDEX].wallType = wallTypes.closed;
+                        }
                     }
-                    else if (level[x, y].adjacentRooms[UP_INDEX].walls[DOWN_INDEX].wallType == wallTypes.closed) {
+                    else {
                         level[x, y].walls[UP_INDEX].wallType = wallTypes.closed;
-                    }   
+                    }                      
                     break;
                 case RIGHT_INDEX:
-                    if (level[x, y].adjacentRooms[RIGHT_INDEX].walls[LEFT_INDEX].wallType == wallTypes.door) {            
-                        level[x, y].walls[RIGHT_INDEX].wallType = wallTypes.door;
-                        level[x, y].numberOpenings++;
+                    if (!IsBoundaryRoom(level[x, y].adjacentRooms[RIGHT_INDEX])) {
+                        if (level[x, y].adjacentRooms[RIGHT_INDEX].walls[LEFT_INDEX].wallType == wallTypes.door) {            
+                            level[x, y].walls[RIGHT_INDEX].wallType = wallTypes.door;
+                            level[x, y].numberOpenings++;
+                        }
+                        else if (level[x, y].adjacentRooms[RIGHT_INDEX].walls[LEFT_INDEX].wallType == wallTypes.closed) {            
+                            level[x, y].walls[RIGHT_INDEX].wallType = wallTypes.closed;
+                        }
                     }
-                    else if (level[x, y].adjacentRooms[RIGHT_INDEX].walls[LEFT_INDEX].wallType == wallTypes.closed) {            
+                    else {
                         level[x, y].walls[RIGHT_INDEX].wallType = wallTypes.closed;
-                    }
+                    }                    
                     break; 
                 case DOWN_INDEX:
-                    if (level[x, y].adjacentRooms[DOWN_INDEX].walls[UP_INDEX].wallType == wallTypes.door) {        
-                        level[x, y].walls[DOWN_INDEX].wallType = wallTypes.door;
-                        level[x, y].numberOpenings++;
-                    } 
-                    else if (level[x, y].adjacentRooms[DOWN_INDEX].walls[UP_INDEX].wallType == wallTypes.closed) {        
+                    if (!IsBoundaryRoom(level[x, y].adjacentRooms[DOWN_INDEX])) {
+                        if (level[x, y].adjacentRooms[DOWN_INDEX].walls[UP_INDEX].wallType == wallTypes.door) {        
+                            level[x, y].walls[DOWN_INDEX].wallType = wallTypes.door;
+                            level[x, y].numberOpenings++;
+                        } 
+                        else if (level[x, y].adjacentRooms[DOWN_INDEX].walls[UP_INDEX].wallType == wallTypes.closed) {        
+                            level[x, y].walls[DOWN_INDEX].wallType = wallTypes.closed;
+                        }
+                    }
+                    else {
                         level[x, y].walls[DOWN_INDEX].wallType = wallTypes.closed;
-                    } 
+                    }
                     break;            
-                case LEFT_INDEX:
-                    if (level[x, y].adjacentRooms[LEFT_INDEX].walls[RIGHT_INDEX].wallType == wallTypes.door) {        
-                        level[x, y].walls[LEFT_INDEX].wallType = wallTypes.door;
-                        level[x, y].numberOpenings++;
-                    }
-                    else if (level[x, y].adjacentRooms[LEFT_INDEX].walls[RIGHT_INDEX].wallType == wallTypes.closed) {        
-                        level[x, y].walls[LEFT_INDEX].wallType = wallTypes.closed;
-                    }
-                    break;
                 default:
+                    if (!IsBoundaryRoom(level[x, y].adjacentRooms[LEFT_INDEX])) {
+                        if (level[x, y].adjacentRooms[LEFT_INDEX].walls[RIGHT_INDEX].wallType == wallTypes.door) {        
+                            level[x, y].walls[LEFT_INDEX].wallType = wallTypes.door;
+                            level[x, y].numberOpenings++;
+                        }
+                        else if (level[x, y].adjacentRooms[LEFT_INDEX].walls[RIGHT_INDEX].wallType == wallTypes.closed) {        
+                            level[x, y].walls[LEFT_INDEX].wallType = wallTypes.closed;
+                        }
+                    }
+                    else {
+                        level[x, y].walls[LEFT_INDEX].wallType = wallTypes.closed; 
+                    }
                     break;
+            }
+        }
+    }
+
+    private void RandomizeRoom(int x, int y) {        
+        bool hasChosenRoom = false;
+
+        while (!hasChosenRoom) {
+            int choice = Mathf.FloorToInt(Random.value * (float)(rooms.Count - 0.01));
+            float rand = Random.value;
+            if (rand <= rooms[choice].chanceToSpawn) {
+                if (rooms[choice].type == Room.RoomTypes.hallway) {
+                    if (IsValidHallwaySpace(x, y)) {
+                        level[x, y].room = rooms[choice];
+                        hasChosenRoom = true;
+                        break;
+                    }
+                }
+                else {
+                    level[x, y].room = rooms[choice];
+                    hasChosenRoom = true;
+                    break;
+                }
             }
         }
     }
@@ -254,7 +296,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         while (level[x, y].numberOpenings < level[x, y].room.minNumDoors) {
             for (int i = 0; i < 4; i++) {
                 float rand = Random.value;
-                if (rand <= level[x, y].room.chanceToSpawnDoor) {
+                if (rand <= level[x, y].room.chanceToSpawnDoor && level[x, y].walls[i].wallType == wallTypes.empty) {
                     level[x, y].walls[i].wallType = wallTypes.door;
                     level[x, y].numberOpenings++;
                 }
@@ -294,33 +336,6 @@ public class LabLevelGenerator : Generator // Extends Generator Class
                             break;
                     }
                 }
-        }
-    }
-
-    private void RandomizeRoom(int x, int y) {
-        int choice = Mathf.FloorToInt(Random.value * (float)(rooms.Count - 0.01));
-        bool hasChosenRoom = false;
-
-        while (!hasChosenRoom) {
-            for (int i = 0; i < rooms.Count; i++) {
-                if (i == choice) {
-                    float rand = Random.value;
-                    if (rand <= rooms[i].chanceToSpawn) {
-                        if (rooms[i].type == Room.RoomTypes.hallway) {
-                            if (IsValidHallwaySpace(x, y)) {
-                                level[x, y].room = rooms[i];
-                                hasChosenRoom = true;
-                                break;
-                            }
-                        }
-                        else {
-                            level[x, y].room = rooms[i];
-                            hasChosenRoom = true;
-                            break;
-                        }
-                    }
-                }
-            }
         }
     }
 
