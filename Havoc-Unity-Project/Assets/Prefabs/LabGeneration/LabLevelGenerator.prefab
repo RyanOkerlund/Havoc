@@ -79,7 +79,7 @@ MonoBehaviour:
   gridHeight: 0
   worldUnitsPerOneGridCell: 15
   percentGridCovered: 0.1
-  maxNumRooms: 5
+  maxNumRooms: 12
   entranceRoom: {fileID: 11400000, guid: f28eacb6af94860428c63ebb2eb9964a, type: 2}
   exitRoom: {fileID: 11400000, guid: 1a010f51337139441b36c7cc6007247f, type: 2}
   borderRoom: {fileID: 11400000, guid: dbea840dd2115384bb07785a9147e47f, type: 2}

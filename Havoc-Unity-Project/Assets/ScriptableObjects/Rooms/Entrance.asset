@@ -17,6 +17,7 @@ MonoBehaviour:
   isCountedAsRoom: 1
   minNumDoors: 2
   maxNumDoors: 4
+  maxNumAllowedPerLevel: 1
   chanceToSpawn: 0
   chanceToSpawnDoor: 0.5
   chanceToSpawnOpenWall: 0

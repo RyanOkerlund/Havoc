@@ -9,10 +9,9 @@ using UnityEngine;
 */
 public class LabLevelGenerator : Generator // Extends Generator Class
 {
-    public enum wallDirections { up, right, down, left }
     public enum wallTypes { closed, open, door, empty }
     public struct wall {
-        public wallDirections direction;
+        public Vector2 direction;
         public wallTypes wallType;
     }
     public int maxNumRooms;
@@ -29,18 +28,18 @@ public class LabLevelGenerator : Generator // Extends Generator Class
 
     public struct LevelSpace {
         public Vector2Int gridPos;
-        public Vector2 spawnPos;
+        public UnityEngine.Vector2 spawnPos;
         public int numberOpenings;
         public Room room;
         // public Vector2 dirCameFrom;
         public wall[] walls;
         public LevelSpace[] adjacentRooms;
-        public List<Vector2> directionsToMove;
+        public List<UnityEngine.Vector2> directionsToMove;
     }
     public LevelSpace[,] level; // The grid of the level
     private Transform roomList;
 
-    public Vector2 levelGridSize; // The size of the level in grid spaces
+    public UnityEngine.Vector2 levelGridSize; // The size of the level in grid spaces
     public int offsetRoomPadding; // The space in between the rooms
 
     public LabRoomGenerator labRoomGenPrefab; // The RoomGenerator prefab to make rooms
@@ -84,7 +83,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
                 level[x, y].walls = new wall[4];
                 SetupWallDirections(x, y);
                 level[x, y].adjacentRooms = new LevelSpace[4];
-                level[x, y].directionsToMove = new List<Vector2>();
+                level[x, y].directionsToMove = new List<UnityEngine.Vector2>();
             }
         }
     }
@@ -94,16 +93,16 @@ public class LabLevelGenerator : Generator // Extends Generator Class
             wall wall = new wall();
             switch (i) {
                 case UP_INDEX:
-                    wall.direction = wallDirections.up;
+                    wall.direction = Vector2.up;
                     break;
                 case RIGHT_INDEX:
-                    wall.direction = wallDirections.right;
+                    wall.direction = Vector2.right;
                     break;
                 case DOWN_INDEX:
-                    wall.direction = wallDirections.down;
+                    wall.direction = Vector2.down;
                     break;
                 default:
-                    wall.direction = wallDirections.left;
+                    wall.direction = Vector2.left;
                     break;
             }
             if (level[x, y].room.type == Room.RoomTypes.border) {
@@ -119,7 +118,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
 
     private void GenerateLevel() {
         Vector2Int entrancePos = GenerateEntrance();
-        GenerateRooms(entrancePos.x, entrancePos.y);
+        GenerateRooms(entrancePos.x, entrancePos.y, entrancePos.x, entrancePos.y);
     }
 
     // Sets middle room to an entrance type
@@ -131,13 +130,13 @@ public class LabLevelGenerator : Generator // Extends Generator Class
 
     #region GenerateRooms
     // Use generators to spawn rooms
-    private void GenerateRooms(int x, int y) {
+    private void GenerateRooms(int x, int y, int prevX, int prevY) {
         if (level[x, y].directionsToMove.Count == 0 || IsBoundaryRoom(level[x, y])) {
             return;
         }
         List<generator> localGenerators = new List<generator>();
 
-        foreach (Vector2 dir in level[x, y].directionsToMove) {
+        foreach (UnityEngine.Vector2 dir in level[x, y].directionsToMove) {
             SpawnGen(dir, level[x, y].gridPos, localGenerators);
         }
         MoveGen(localGenerators);
@@ -145,8 +144,17 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         // Change the location of each generator to a room
         foreach (generator targetGen in localGenerators) {
             if (level[(int)targetGen.pos.x, (int)targetGen.pos.y].room.type == Room.RoomTypes.empty) {
-                SetupRoom((int)targetGen.pos.x, (int)targetGen.pos.y);             
-                GenerateRooms((int)targetGen.pos.x, (int)targetGen.pos.y);
+                if (HasLessThanMaxNumRooms()) {
+                    SetupRoom((int)targetGen.pos.x, (int)targetGen.pos.y);             
+                    GenerateRooms((int)targetGen.pos.x, (int)targetGen.pos.y, x, y);
+                }
+                else {
+                    for (int i = 0; i < 4; i++) {
+                        if (level[x, y].walls[i].direction == targetGen.dir) {
+                            level[x, y].walls[i].wallType = wallTypes.closed;
+                        }
+                    }
+                }
             }
         }
     }
@@ -156,7 +164,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
     }
 
     // Returns the number of rooms in the level
-    private int NumberOfValidRooms() {
+    private bool HasLessThanMaxNumRooms() {
         int count = 0;
         foreach (LevelSpace levelSpace in level)
         {
@@ -165,7 +173,22 @@ public class LabLevelGenerator : Generator // Extends Generator Class
                 count++;
             }
         }
-        return count;
+        return count < maxNumRooms;
+    }
+
+    private void CloseWall(int x, int y, UnityEngine.Vector2 dir) {
+        if (dir == UnityEngine.Vector2.up) {
+            level[x, y].adjacentRooms[DOWN_INDEX].walls[UP_INDEX].wallType = wallTypes.closed;
+        }
+        else if (dir == UnityEngine.Vector2.right) {
+            level[x, y].adjacentRooms[LEFT_INDEX].walls[RIGHT_INDEX].wallType = wallTypes.closed;
+        }
+        else if (dir == UnityEngine.Vector2.down) {
+            level[x, y].adjacentRooms[UP_INDEX].walls[DOWN_INDEX].wallType = wallTypes.closed;
+        }   
+        else {
+            level[x, y].adjacentRooms[RIGHT_INDEX].walls[LEFT_INDEX].wallType = wallTypes.closed;
+        }
     } 
     #endregion
 
@@ -284,9 +307,11 @@ public class LabLevelGenerator : Generator // Extends Generator Class
                     }
                 }
                 else {
-                    level[x, y].room = rooms[choice];
-                    hasChosenRoom = true;
-                    break;
+                    if (IsLowerThanMaxAllowed(rooms[choice])) {
+                        level[x, y].room = rooms[choice];
+                        hasChosenRoom = true;
+                        break;
+                    }
                 }
             }
         }
@@ -299,20 +324,23 @@ public class LabLevelGenerator : Generator // Extends Generator Class
                 if (rand <= level[x, y].room.chanceToSpawnDoor && level[x, y].walls[i].wallType == wallTypes.empty) {
                     level[x, y].walls[i].wallType = wallTypes.door;
                     level[x, y].numberOpenings++;
+                    break;
                 }
             }
         }
         // Chance to spawn more doors
         for (int i = 0; i < 4; i++) {
+            float rand = Random.value;
+            if (rand <= level[x, y].room.chanceToSpawnDoor && level[x, y].walls[i].wallType == wallTypes.empty
+                && level[x, y].numberOpenings < level[x, y].room.maxNumDoors) { 
+                level[x, y].walls[i].wallType = wallTypes.door;
+                level[x, y].numberOpenings++;
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
             if (level[x, y].walls[i].wallType == wallTypes.empty) {
-                float rand = Random.value;
-                if (rand <= level[x, y].room.chanceToSpawnDoor) { 
-                    level[x, y].walls[i].wallType = wallTypes.door;
-                    level[x, y].numberOpenings++;
-                }
-                else {
-                    level[x, y].walls[i].wallType = wallTypes.closed;
-                }
+                level[x, y].walls[i].wallType = wallTypes.closed;
             }
         }
     }
@@ -323,16 +351,16 @@ public class LabLevelGenerator : Generator // Extends Generator Class
                     level[x, y].adjacentRooms[i].room.type == Room.RoomTypes.empty) {
                     switch (i) {
                         case UP_INDEX:
-                            level[x, y].directionsToMove.Add(Vector2.up);
+                        level[x, y].directionsToMove.Add(UnityEngine.Vector2.up);
                             break;
                         case RIGHT_INDEX:
-                            level[x, y].directionsToMove.Add(Vector2.right);
+                        level[x, y].directionsToMove.Add(UnityEngine.Vector2.right);
                             break;
                         case DOWN_INDEX:
-                            level[x, y].directionsToMove.Add(Vector2.down);
+                        level[x, y].directionsToMove.Add(UnityEngine.Vector2.down);
                             break;
                         default:
-                            level[x, y].directionsToMove.Add(Vector2.left);
+                        level[x, y].directionsToMove.Add(UnityEngine.Vector2.left);
                             break;
                     }
                 }
@@ -348,6 +376,19 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         }
 
         return count >= 1;
+    }
+
+    public bool IsLowerThanMaxAllowed(Room room) {
+        int count = 0;
+        for (int x = 1; x < gridWidth - 1; x++) {
+            for (int y = 1; y < gridHeight - 1; y++) {
+                if (level[x, y].room.type == room.type) {
+                    count++;
+                }
+            }
+        }
+        
+        return count < room.maxNumAllowedPerLevel;
     }
     #endregion
 
@@ -402,8 +443,8 @@ public class LabLevelGenerator : Generator // Extends Generator Class
     // Instantiates a room at the given location
     private void Spawn(LevelSpace levelSpace, float xPos, float yPos)
     {
-        Vector2 offset = gridSizeWorldUnits / 2.0f;
-        Vector2 spawnPos = new Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
+        UnityEngine.Vector2 offset = gridSizeWorldUnits / 2.0f;
+        UnityEngine.Vector2 spawnPos = new UnityEngine.Vector2(xPos, yPos) * worldUnitsPerOneGridCell - offset;
         levelSpace.spawnPos = spawnPos;
         LabRoomGenerator roomToSpawn = Instantiate(labRoomGenPrefab, spawnPos, Quaternion.identity, roomList);
         roomToSpawn.init(levelSpace);

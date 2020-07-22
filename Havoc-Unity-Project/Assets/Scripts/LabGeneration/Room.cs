@@ -14,9 +14,11 @@ public class Room : ScriptableObject
     [Space]
     public int minNumDoors;
     public int maxNumDoors;
+    public int maxNumAllowedPerLevel;
+
+    [Space]
     public float chanceToSpawn;
     public float chanceToSpawnDoor;
-    public float chanceToSpawnOpenWall;
 
     [Space]
     public TileBase floorTile;
