@@ -14,6 +14,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         public Vector2 direction;
         public wallTypes wallType;
     }
+    public int minNumRooms;
     public int maxNumRooms;
     public Room entranceRoom;
     public Room exitRoom;
@@ -40,13 +41,11 @@ public class LabLevelGenerator : Generator // Extends Generator Class
     private Transform roomList;
 
     public UnityEngine.Vector2 levelGridSize; // The size of the level in grid spaces
-    public int offsetRoomPadding; // The space in between the rooms
 
     public LabRoomGenerator labRoomGenPrefab; // The RoomGenerator prefab to make rooms
 
     // Runs all the code to make the level
-    private void Start()
-    {
+    private void Start() {
         Setup();
         GenerateLevel();        
         SpawnLevel();
@@ -54,11 +53,10 @@ public class LabLevelGenerator : Generator // Extends Generator Class
 
     #region Setup
     // Prepares the level for generation
-    public void Setup()
-    {
+    public void Setup() {
         roomList = transform.GetChild(0).transform;
         // Sets the level grid size in Unity world units
-        worldUnitsPerOneGridCell = labRoomGenPrefab.roomSize.x + offsetRoomPadding;
+        worldUnitsPerOneGridCell = labRoomGenPrefab.roomSize.x;
         gridSizeWorldUnits.x = worldUnitsPerOneGridCell * levelGridSize.x;
         gridSizeWorldUnits.y = worldUnitsPerOneGridCell * levelGridSize.y;        
 
@@ -163,6 +161,18 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         return levelSpace.room.type == Room.RoomTypes.border;
     }
 
+    private bool HasLessThanMinNumRooms() {
+        int count = 0;
+        foreach (LevelSpace levelSpace in level)
+        {
+            if (levelSpace.room.isCountedAsRoom)
+            {
+                count++;
+            }
+        }
+        return count < minNumRooms;
+    }
+
     // Returns the number of rooms in the level
     private bool HasLessThanMaxNumRooms() {
         int count = 0;
@@ -175,21 +185,6 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         }
         return count < maxNumRooms;
     }
-
-    private void CloseWall(int x, int y, UnityEngine.Vector2 dir) {
-        if (dir == UnityEngine.Vector2.up) {
-            level[x, y].adjacentRooms[DOWN_INDEX].walls[UP_INDEX].wallType = wallTypes.closed;
-        }
-        else if (dir == UnityEngine.Vector2.right) {
-            level[x, y].adjacentRooms[LEFT_INDEX].walls[RIGHT_INDEX].wallType = wallTypes.closed;
-        }
-        else if (dir == UnityEngine.Vector2.down) {
-            level[x, y].adjacentRooms[UP_INDEX].walls[DOWN_INDEX].wallType = wallTypes.closed;
-        }   
-        else {
-            level[x, y].adjacentRooms[RIGHT_INDEX].walls[LEFT_INDEX].wallType = wallTypes.closed;
-        }
-    } 
     #endregion
 
     #region RoomSetup
