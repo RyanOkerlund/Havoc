@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: Hallway
   type: 6
+  isCountedAsRoom: 0
   minNumDoors: 2
   maxNumDoors: 4
+  chanceToSpawn: 0.5
   chanceToSpawnDoor: 0.5
   chanceToSpawnOpenWall: 0
   floorTile: {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
-  wallTile: {fileID: 11400000, guid: 5214c40dbe78ff44f865c286e56ea728, type: 2}
+  wallTile: {fileID: 11400000, guid: de11c9f4d864f95478e56a6de5ba71ad, type: 2}
   doorTile: {fileID: 11400000, guid: db998390b5404be49ac9f6d0b9c5a5d8, type: 2}

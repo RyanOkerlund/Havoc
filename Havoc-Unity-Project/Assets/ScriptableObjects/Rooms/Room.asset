@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: Room
   type: 1
+  isCountedAsRoom: 1
   minNumDoors: 1
   maxNumDoors: 4
-  chanceToSpawnDoor: 0.25
+  maxNumAllowedPerLevel: 49
+  chanceToSpawn: 0.8
+  chanceToSpawnDoor: 0.3
   chanceToSpawnOpenWall: 0.5
   floorTile: {fileID: 11400000, guid: 0669c851b3622084880f7d2166396516, type: 2}
   wallTile: {fileID: 11400000, guid: 5214c40dbe78ff44f865c286e56ea728, type: 2}

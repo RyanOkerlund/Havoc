@@ -1,22 +1,19 @@
 fileFormatVersion: 2
-guid: 801834bc79d7fbb498315febe1ee73cf
+guid: 463f6b2ded36ba240bdfeda9a08831c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4295336971677907079
-    second: DungeonTestTileset_Wall
+      213: 3796502546761051104
+    second: MainCharacter64x64_0
   - first:
-      213: -4260872323249989022
-    second: DungeonTestTileset_Floor
+      213: -8858717643260615863
+    second: MainCharacter64x64_1
   - first:
-      213: 1658289310357830775
-    second: DungeonTestTileset_Door
+      213: -460528809114965098
+    second: MainCharacter64x64_2
   - first:
-      213: 7572693211119640995
-    second: DungeonTestTileset_EntrancePortal
-  - first:
-      213: 7076311163655628567
-    second: DungeonTestTileset_ExitPortal
+      213: 2873005323767139609
+    second: MainCharacter64x64_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -60,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +69,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -114,94 +111,10 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DungeonTestTileset_Wall
+      name: MainCharacter64x64_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 977498c28c5e364c0800000000000000
-      internalID: -4295336971677907079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonTestTileset_Floor
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 26a146372375ed4c0800000000000000
-      internalID: -4260872323249989022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonTestTileset_Door
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 77cb4be775d630710800000000000000
-      internalID: 1658289310357830775
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonTestTileset_EntrancePortal
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3a16cc98a5c971960800000000000000
-      internalID: 7572693211119640995
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonTestTileset_ExitPortal
-      rect:
-        serializedVersion: 2
-        x: 256
         y: 0
         width: 64
         height: 64
@@ -212,8 +125,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 71723dde28b143260800000000000000
-      internalID: 7076311163655628567
+      spriteID: 0ebee8893f2efa430800000000000000
+      internalID: 3796502546761051104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacter64x64_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94327fb2d338f0580800000000000000
+      internalID: -8858717643260615863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacter64x64_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69b6ed3fc7fdb99f0800000000000000
+      internalID: -460528809114965098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacter64x64_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91d42f0ce17fed720800000000000000
+      internalID: 2873005323767139609
       vertices: []
       indices: 
       edges: []

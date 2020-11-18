@@ -1,52 +1,79 @@
 fileFormatVersion: 2
-guid: 56a309a122bd3c948b3adf5fa1d85e79
+guid: 6c3a5216b1431e74fbb83abf5723d63b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3115902641488759148
-    second: DungeonWallsTestTileset_0
+      213: -8736256492243021229
+    second: LabWallsTilesetSS_TCorner
   - first:
-      213: 9117559930061694132
-    second: DungeonWallsTestTileset_1
+      213: -9019948031971257384
+    second: LabWallsTilesetSS_T
   - first:
-      213: -7182380085896544367
-    second: DungeonWallsTestTileset_2
+      213: -3630991015979878024
+    second: LabWallsTilesetSS_TDoor
   - first:
-      213: 2740389456291197432
-    second: DungeonWallsTestTileset_3
+      213: -6238892047391505224
+    second: LabWallsTilesetSS_S
   - first:
-      213: 2089450706895135935
-    second: DungeonWallsTestTileset_4
+      213: 1572278141060446578
+    second: LabWallsTilesetSS_BCorner
   - first:
-      213: 8176362491617519256
-    second: DungeonWallsTestTileset_5
+      213: -8305423786901747724
+    second: LabWallsTilesetSS_B
   - first:
-      213: -1644374399114621298
-    second: DungeonWallsTestTileset_6
+      213: -8474441718794478292
+    second: LabWallsTilesetSS_BDoor
   - first:
-      213: -6721388894845983734
-    second: DungeonWallsTestTileset_7
+      213: -8736256492243021229
+    second: LabWallsTilesetSS_T
   - first:
-      213: 8127657554295791634
-    second: DungeonWallsTestTileset_8
+      213: -9019948031971257384
+    second: LabWallsTilesetSS_TDoor
   - first:
-      213: -367925679783098235
-    second: DungeonWallsTestTileset_9
+      213: -3630991015979878024
+    second: LabWallsTilesetSS_SB
   - first:
-      213: -1492052120102279720
-    second: DungeonWallsTestTileset_10
+      213: -6238892047391505224
+    second: LabWallsTilesetSS_TCorner
   - first:
-      213: 4182977484469397091
-    second: DungeonWallsTestTileset_11
+      213: 1572278141060446578
+    second: LabWallsTilesetSS_BDoor
   - first:
-      213: 101439665156577551
-    second: DungeonWallsTestTileset_12
+      213: -8305423786901747724
+    second: LabWallsTilesetSS_BCorner
   - first:
-      213: -1092699255857940278
-    second: DungeonWallsTestTileset_13
+      213: -7244656080353399456
+    second: LabWalls_TopWall
   - first:
-      213: 1104118086641267817
-    second: DungeonWallsTestTileset_14
+      213: -7664035570920727371
+    second: LabWalls_SideWall
+  - first:
+      213: 1664663831978167415
+    second: LabWalls_BottomWall
+  - first:
+      213: -6238892047391505224
+    second: LabWalls_TopDoor
+  - first:
+      213: 5455983531816052458
+    second: LabWalls_SideDoorTop
+  - first:
+      213: -8305423786901747724
+    second: LabWalls_SideDoorBottom
+  - first:
+      213: 5352869885691076572
+    second: LabWalls_BottomDoor
+  - first:
+      213: 1043990267877602378
+    second: LabWalls_TopInsideCorner
+  - first:
+      213: -4634946594215008855
+    second: LabWalls_BottomInsideCorner
+  - first:
+      213: -8736256492243021229
+    second: LabWalls_TopOutsideCorner
+  - first:
+      213: -9019948031971257384
+    second: LabWalls_BottomOutsideCorner
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -90,7 +117,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -144,307 +171,202 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DungeonWallsTestTileset_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6983a491f8ed3b20800000000000000
-      internalID: 3115902641488759148
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4b4a9a11374188e70800000000000000
-      internalID: 9117559930061694132
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19ffb42ad5f035c90800000000000000
-      internalID: -7182380085896544367
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_3
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8f17678f0b1d70620800000000000000
-      internalID: 2740389456291197432
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fb46c28f8583ffc10800000000000000
-      internalID: 2089450706895135935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 896a0bbad56487170800000000000000
-      internalID: 8176362491617519256
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_6
+      name: LabWalls_TopDoor
       rect:
         serializedVersion: 2
         x: 384
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8ec60f32320e29e0800000000000000
-      internalID: -1644374399114621298
+      spriteID: 8b4483becb00b69a0800000000000000
+      internalID: -6238892047391505224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonWallsTestTileset_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a04237d5964d8b2a0800000000000000
-      internalID: -6721388894845983734
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 21022d3cb7d3bc070800000000000000
-      internalID: 8127657554295791634
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 588c8c82b8dd4eaf0800000000000000
-      internalID: -367925679783098235
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_10
+      name: LabWalls_SideDoorBottom
       rect:
         serializedVersion: 2
         x: 640
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d56fe2808a2b4be0800000000000000
-      internalID: -1492052120102279720
+      spriteID: 4f744a0e1153dbc80800000000000000
+      internalID: -8305423786901747724
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonWallsTestTileset_11
+      name: LabWalls_TopWall
       rect:
         serializedVersion: 2
-        x: 704
+        x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36661491cdbec0a30800000000000000
-      internalID: 4182977484469397091
+      spriteID: 06d69a2cdafc57b90800000000000000
+      internalID: -7244656080353399456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonWallsTestTileset_12
+      name: LabWalls_SideWall
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bcdf490140e3a590800000000000000
+      internalID: -7664035570920727371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomWall
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77ccf777fe21a1710800000000000000
+      internalID: 1664663831978167415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_SideDoorTop
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae6e64a7d1c87bb40800000000000000
+      internalID: 5455983531816052458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomDoor
       rect:
         serializedVersion: 2
         x: 768
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f09dac786d2686100800000000000000
-      internalID: 101439665156577551
+      spriteID: cdf9081ecc6394a40800000000000000
+      internalID: 5352869885691076572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonWallsTestTileset_13
-      rect:
-        serializedVersion: 2
-        x: 832
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ac8f040f0d3f5d0f0800000000000000
-      internalID: -1092699255857940278
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonWallsTestTileset_14
+      name: LabWalls_TopInsideCorner
       rect:
         serializedVersion: 2
         x: 896
         y: 0
-        width: 64
-        height: 64
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a443fc90e9ffc7e00800000000000000
+      internalID: 1043990267877602378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomInsideCorner
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a568ea21ac5dafb0800000000000000
+      internalID: -4634946594215008855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_TopOutsideCorner
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -452,8 +374,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9643658cc8d925f00800000000000000
-      internalID: 1104118086641267817
+      spriteID: 3529729c10592c680800000000000000
+      internalID: -8736256492243021229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomOutsideCorner
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d39eddfd05b2d280800000000000000
+      internalID: -9019948031971257384
       vertices: []
       indices: 
       edges: []

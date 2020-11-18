@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5622171962013938096}
   - component: {fileID: 5622171962013938097}
-  - component: {fileID: 5622171962013938098}
   - component: {fileID: 5622171962013938095}
   - component: {fileID: 118886287290001332}
   - component: {fileID: 6660320373136205440}
@@ -75,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -614773145
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3103639426738538178, guid: ec25ebd8ef2eb7540a23cac47a8ef4f1,
+  m_Sprite: {fileID: 3796502546761051104, guid: 463f6b2ded36ba240bdfeda9a08831c6,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -87,25 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5622171962013938098
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5622171962013938099}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cc190636e6146f2468bd7fa781cb2cda, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5622171962013938095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,18 +133,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
+  m_Offset: {x: -0.0000000037252903, y: -0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.33333334, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
     newSize: {x: 0.75, y: 0.8125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.11, y: 0.08}
+  m_Size: {x: 0.12472092, y: 0.05546519}
   m_EdgeRadius: 0.01
 --- !u!1001 &1230363906
 PrefabInstance:
@@ -188,10 +168,35 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5860576081874486802, guid: 655138b7e40195e42af53e56f99fd687,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.105882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860576081874486802, guid: 655138b7e40195e42af53e56f99fd687,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.14117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860576081874486802, guid: 655138b7e40195e42af53e56f99fd687,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.21960784
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860576081874486802, guid: 655138b7e40195e42af53e56f99fd687,
+        type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5860576081874486803, guid: 655138b7e40195e42af53e56f99fd687,
         type: 3}
       propertyPath: m_AssetsPPU
-      value: 64
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 5860576081874486803, guid: 655138b7e40195e42af53e56f99fd687,
+        type: 3}
+      propertyPath: m_PixelSnapping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5860576081874487021, guid: 655138b7e40195e42af53e56f99fd687,
         type: 3}
