@@ -77,8 +77,8 @@ MonoBehaviour:
   gridSizeWorldUnits: {x: 135, y: 135}
   gridWidth: 0
   gridHeight: 0
-  worldUnitsPerOneGridCell: 15
-  percentGridCovered: 0.1
+  worldUnitsPerOneGridCell: {x: 0, y: 0}
+  minNumRooms: 0
   maxNumRooms: 12
   entranceRoom: {fileID: 11400000, guid: f28eacb6af94860428c63ebb2eb9964a, type: 2}
   exitRoom: {fileID: 11400000, guid: 1a010f51337139441b36c7cc6007247f, type: 2}
@@ -89,7 +89,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 47feadd785293e84e916b694ced0b079, type: 2}
   - {fileID: 11400000, guid: 3edead33054819248bc9d50a31bbf7a7, type: 2}
   - {fileID: 11400000, guid: 1e5239708bbac004998f9960d38f5ead, type: 2}
+  roomSize: {x: 7, y: 17}
+  hallwayWidth: 3
   levelGridSize: {x: 9, y: 9}
-  offsetRoomPadding: 0
   labRoomGenPrefab: {fileID: 6787566486439881441, guid: 096084f3bb259d7498ee27891c3ecafa,
     type: 3}

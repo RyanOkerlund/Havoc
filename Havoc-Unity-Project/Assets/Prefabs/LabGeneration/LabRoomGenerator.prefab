@@ -711,5 +711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74df103a319fb5f49ac9a0a00f824823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSize: {x: 15, y: 15}
-  hallway: {fileID: 11400000, guid: 47feadd785293e84e916b694ced0b079, type: 2}
+  labLevelGeneratorPrefab: {fileID: 279434292, guid: 940f86096d1597d48b46e536531344f3,
+    type: 3}
+  hallwayWidth: 3
+  roomWalls: {fileID: 11400000, guid: 5214c40dbe78ff44f865c286e56ea728, type: 2}
+  hallwayWalls: {fileID: 11400000, guid: de11c9f4d864f95478e56a6de5ba71ad, type: 2}

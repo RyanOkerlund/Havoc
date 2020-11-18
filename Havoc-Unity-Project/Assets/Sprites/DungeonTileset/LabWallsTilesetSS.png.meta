@@ -41,6 +41,39 @@ TextureImporter:
   - first:
       213: -8305423786901747724
     second: LabWallsTilesetSS_BCorner
+  - first:
+      213: -7244656080353399456
+    second: LabWalls_TopWall
+  - first:
+      213: -7664035570920727371
+    second: LabWalls_SideWall
+  - first:
+      213: 1664663831978167415
+    second: LabWalls_BottomWall
+  - first:
+      213: -6238892047391505224
+    second: LabWalls_TopDoor
+  - first:
+      213: 5455983531816052458
+    second: LabWalls_SideDoorTop
+  - first:
+      213: -8305423786901747724
+    second: LabWalls_SideDoorBottom
+  - first:
+      213: 5352869885691076572
+    second: LabWalls_BottomDoor
+  - first:
+      213: 1043990267877602378
+    second: LabWalls_TopInsideCorner
+  - first:
+      213: -4634946594215008855
+    second: LabWalls_BottomInsideCorner
+  - first:
+      213: -8736256492243021229
+    second: LabWalls_TopOutsideCorner
+  - first:
+      213: -9019948031971257384
+    second: LabWalls_BottomOutsideCorner
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -138,10 +171,199 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LabWallsTilesetSS_T
+      name: LabWalls_TopDoor
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b4483becb00b69a0800000000000000
+      internalID: -6238892047391505224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_SideDoorBottom
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f744a0e1153dbc80800000000000000
+      internalID: -8305423786901747724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_TopWall
       rect:
         serializedVersion: 2
         x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06d69a2cdafc57b90800000000000000
+      internalID: -7244656080353399456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_SideWall
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bcdf490140e3a590800000000000000
+      internalID: -7664035570920727371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomWall
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77ccf777fe21a1710800000000000000
+      internalID: 1664663831978167415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_SideDoorTop
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae6e64a7d1c87bb40800000000000000
+      internalID: 5455983531816052458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomDoor
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdf9081ecc6394a40800000000000000
+      internalID: 5352869885691076572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_TopInsideCorner
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a443fc90e9ffc7e00800000000000000
+      internalID: 1043990267877602378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_BottomInsideCorner
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a568ea21ac5dafb0800000000000000
+      internalID: -4634946594215008855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LabWalls_TopOutsideCorner
+      rect:
+        serializedVersion: 2
+        x: 1152
         y: 0
         width: 128
         height: 128
@@ -159,10 +381,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LabWallsTilesetSS_TDoor
+      name: LabWalls_BottomOutsideCorner
       rect:
         serializedVersion: 2
-        x: 128
+        x: 1280
         y: 0
         width: 128
         height: 128
@@ -175,90 +397,6 @@ TextureImporter:
       bones: []
       spriteID: 8d39eddfd05b2d280800000000000000
       internalID: -9019948031971257384
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: LabWallsTilesetSS_SB
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87972e5a8e02c9dc0800000000000000
-      internalID: -3630991015979878024
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: LabWallsTilesetSS_TCorner
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b4483becb00b69a0800000000000000
-      internalID: -6238892047391505224
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: LabWallsTilesetSS_BDoor
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 279f40693aad1d510800000000000000
-      internalID: 1572278141060446578
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: LabWallsTilesetSS_BCorner
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4f744a0e1153dbc80800000000000000
-      internalID: -8305423786901747724
       vertices: []
       indices: 
       edges: []

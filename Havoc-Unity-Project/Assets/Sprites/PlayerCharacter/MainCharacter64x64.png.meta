@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: ec25ebd8ef2eb7540a23cac47a8ef4f1
+guid: 463f6b2ded36ba240bdfeda9a08831c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3103639426738538178
-    second: DifferentSytleTest_FL
+      213: 3796502546761051104
+    second: MainCharacter64x64_0
   - first:
-      213: -1346525139876996071
-    second: DifferentSytleTest_FR
+      213: -8858717643260615863
+    second: MainCharacter64x64_1
   - first:
-      213: -418127755421721437
-    second: DifferentSytleTest_BR
+      213: -460528809114965098
+    second: MainCharacter64x64_2
   - first:
-      213: 5694883575196975827
-    second: DifferentSytleTest_BL
+      213: 2873005323767139609
+    second: MainCharacter64x64_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -111,13 +111,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DifferentSytleTest_FL
+      name: MainCharacter64x64_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 48
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,41 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e393a5a9268ade4d0800000000000000
-      internalID: -3103639426738538178
+      spriteID: 0ebee8893f2efa430800000000000000
+      internalID: 3796502546761051104
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DifferentSytleTest_FR
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 91c9f7cf48e205de0800000000000000
-      internalID: -1346525139876996071
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DifferentSytleTest_BR
+      name: MainCharacter64x64_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 32
-        height: 48
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ac5b539503823af0800000000000000
-      internalID: -418127755421721437
+      spriteID: 94327fb2d338f0580800000000000000
+      internalID: -8858717643260615863
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DifferentSytleTest_BL
+      name: MainCharacter64x64_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 128
         y: 0
-        width: 32
-        height: 48
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,8 +167,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d282d8507a480f40800000000000000
-      internalID: 5694883575196975827
+      spriteID: 69b6ed3fc7fdb99f0800000000000000
+      internalID: -460528809114965098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacter64x64_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91d42f0ce17fed720800000000000000
+      internalID: 2873005323767139609
       vertices: []
       indices: 
       edges: []

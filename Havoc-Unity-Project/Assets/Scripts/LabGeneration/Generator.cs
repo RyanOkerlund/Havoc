@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- Generator Class:
- This class is an abstract class describing main variables and features of a drunken-walker generation algorithm.
- Creates generators on a specified grid to "walk" about and generate whatever is chosen.                  
+Generator Class:
+This class is an abstract class describing main variables and features of a drunken-walker generation algorithm.
+Creates generators on a specified grid to "walk" about and generate whatever is chosen.                  
 */
 public abstract class Generator : MonoBehaviour
 {
     // The "grid" is implemented in classes that extend this class!!!
-    public Vector2 gridSizeWorldUnits; // The physical x, y space the grid takes up (actual values in Unity)
+    [HideInInspector] public Vector2 gridSizeWorldUnits; // The physical x, y space the grid takes up (actual values in Unity)
     [HideInInspector] public int gridWidth, gridHeight; // The width and height of the grid in number of grid spaces
 
-    public float worldUnitsPerOneGridCell; // The size of each space in the grid
-    public float percentGridCovered; // How much of the grid needs to have generated to be complete
+    [HideInInspector] public Vector2 worldUnitsPerOneGridCell; // The size of each space in the grid
 
     public struct generator // The generator itself. Stores a position in the grid and a direction
     {
@@ -27,8 +26,8 @@ public abstract class Generator : MonoBehaviour
     // Define the gridWidth and gridHeight
     public void SetupGridSize()
     {
-        gridWidth = Mathf.FloorToInt(gridSizeWorldUnits.x / worldUnitsPerOneGridCell);
-        gridHeight = Mathf.FloorToInt(gridSizeWorldUnits.y / worldUnitsPerOneGridCell);
+        gridWidth = Mathf.FloorToInt(gridSizeWorldUnits.x / worldUnitsPerOneGridCell.x);
+        gridHeight = Mathf.FloorToInt(gridSizeWorldUnits.y / worldUnitsPerOneGridCell.y);
     }
 
     // Tries to spawn new generators as long as the max isn't reached

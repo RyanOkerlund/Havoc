@@ -14,6 +14,7 @@ public class LabLevelGenerator : Generator // Extends Generator Class
         public Vector2 direction;
         public wallTypes wallType;
     }
+
     public int minNumRooms;
     public int maxNumRooms;
     public Room entranceRoom;
@@ -40,25 +41,51 @@ public class LabLevelGenerator : Generator // Extends Generator Class
     public LevelSpace[,] level; // The grid of the level
     private Transform roomList;
 
+    public Vector2Int roomSize;
+    public int hallwayWidth;
     public UnityEngine.Vector2 levelGridSize; // The size of the level in grid spaces
 
     public LabRoomGenerator labRoomGenPrefab; // The RoomGenerator prefab to make rooms
 
     // Runs all the code to make the level
     private void Start() {
+        ValidateInput();
         Setup();
         GenerateLevel();        
         SpawnLevel();
     }
 
     #region Setup
+
+    private void ValidateInput(){
+        if (roomSize.x % 2 == 0) {
+            roomSize.x -= 1;
+        }
+        if (roomSize.x == 1) {
+            roomSize.x = 3;
+        }
+        if (roomSize.y % 2 == 0) {
+            roomSize.y -= 1;
+        }
+        if (roomSize.y == 1) {
+            roomSize.y = 3;
+        }
+        if (hallwayWidth % 2 == 0) {
+            hallwayWidth -= 1;
+        }
+        if (hallwayWidth == 1) {
+            hallwayWidth = 3;
+        }
+        labRoomGenPrefab.roomSize = roomSize;
+        labRoomGenPrefab.hallwayWidth = hallwayWidth;
+    }
     // Prepares the level for generation
     public void Setup() {
         roomList = transform.GetChild(0).transform;
         // Sets the level grid size in Unity world units
-        worldUnitsPerOneGridCell = labRoomGenPrefab.roomSize.x;
-        gridSizeWorldUnits.x = worldUnitsPerOneGridCell * levelGridSize.x;
-        gridSizeWorldUnits.y = worldUnitsPerOneGridCell * levelGridSize.y;        
+        worldUnitsPerOneGridCell = roomSize;
+        gridSizeWorldUnits.x = worldUnitsPerOneGridCell.x * levelGridSize.x;
+        gridSizeWorldUnits.y = worldUnitsPerOneGridCell.y * levelGridSize.y;        
 
         SetupGridSize();
 
